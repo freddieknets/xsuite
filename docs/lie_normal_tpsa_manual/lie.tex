@@ -1,0 +1,880 @@
+\chapter{Lie Algebra, Lie Groups, and Compositional Maps}
+
+Lie methods provide a useful change of viewpoint.  Instead of describing a
+beam-line element only by the map that sends its entrance coordinates to its
+exit coordinates, one describes an infinitesimal transformation---a
+\emph{generator}---and obtains the finite map by exponentiation.  Linear
+transfer matrices are the simplest example of this idea.  The same language
+also applies to nonlinear Hamiltonian maps, with the matrix commutator
+replaced by the Poisson bracket.
+
+
+\section{Lie Algebra}
+
+\subsection{Vector spaces and Lie algebras}
+
+A vector space $V$ over a field $\mathbb{F}$ (here typically
+$\mathbb{R}$ or $\mathbb{C}$) is a set whose elements can be added and
+multiplied by scalars.  The result must remain in $V$, and these operations
+obey the familiar linear rules: addition is associative and commutative,
+there is a zero and an additive inverse, and scalar multiplication is
+associative and distributes over both vector addition and scalar addition.
+Consequently, if $X,Y\in V$ and $a,b\in\mathbb{F}$, then
+$aX + bY\in V$.  This last closure test is often the most useful quick check in
+practice.
+
+A \emph{Lie algebra} $\mathfrak{g}$ over $\mathbb{F}$ is a vector space
+equipped with a binary operation
+\begin{equation}
+    [\ ,\ ]:\mathfrak{g}\times\mathfrak{g}\longrightarrow\mathfrak{g}\,,
+    \qquad (X,Y)\longmapsto[X,Y]\,,
+\end{equation}
+called the \emph{Lie bracket}.  For $X,Y,Z\in\mathfrak{g}$ and
+$a,b\in\mathbb{F}$ it satisfies
+\begin{align}
+    [aX + bY,Z] & = a[X,Z] + b[Y,Z]\,,\notag\\
+    [Z,aX + bY] & = a[Z,X] + b[Z,Y]
+    &&\text{(bilinearity)},\label{eq:lie-bilinear}\\
+    [X,X] & = 0
+    &&\text{(alternation)},\label{eq:lie-alternation}\\
+    [X,[Y,Z]] + [Y,[Z,X]] + [Z,[X,Y]] & = 0
+    &&\text{(Jacobi identity)}\,.\label{eq:lie-jacobi}
+\end{align}
+Over the fields used here, $\mathbb R$ and $\mathbb C$, alternation is equivalent
+to antisymmetry, $[X,Y] = -[Y,X]$.  Writing the axiom as alternation is also
+correct in characteristic $2$, where a minus sign does not distinguish
+antisymmetry from symmetry.
+The bracket therefore measures non-commutativity.  If every bracket
+vanishes, the algebra is called abelian.  Notice that a Lie algebra has two
+quite different operations: vector addition and the bracket.  The bracket is
+not in general an associative multiplication.
+
+\subsection{Lie groups and representations}
+A \emph{Lie group} $G$ is both a group and a smooth manifold, with smooth
+group multiplication and inversion.  Its Lie algebra is the tangent space at
+the identity,
+\begin{equation}
+    \mathfrak{g} = T_eG\,.
+\end{equation}
+A tangent vector $X\in T_eG$ is the initial velocity of a smooth curve
+$g(t)$ through the identity: $g(0) = e$ and $\dot g(0) = X$.  Here $t$ is
+simply a real curve parameter, defined at least on an open interval around
+$t = 0$; it need not represent physical time.  Different curves with the same
+initial velocity represent the same tangent vector.  Translating this vector
+from the identity to every other group element produces a left-invariant vector
+field. The usual commutator of these vector fields, evaluated back at $e$,
+defines the Lie bracket.  Thus the algebra contains the infinitesimal
+transformations of the group.  It determines the group locally near the
+identity, but does not by itself contain all global topological information.
+
+The group itself is usually \emph{not} a vector space.  Rotation matrices,
+for example, form a group under matrix multiplication, but the sum of two
+rotation matrices need not be a rotation matrix, and multiplying a rotation
+matrix by zero leaves the group.  This is precisely why it is useful to move
+to the tangent space: $T_eG$ is a vector space even when $G$ is curved.
+
+If $\mathfrak{g}$ is finite-dimensional, choose a basis
+$t_1,\ldots,t_n$.  These basis elements are commonly called the
+\emph{generators}.  Every infinitesimal transformation is
+\begin{equation}
+    X \in \mathfrak{g} \;\Leftrightarrow\; X = x^at_a\,,
+\end{equation}
+where repeated indices are summed, and closure of the bracket gives
+\begin{equation}
+    [t_a,t_b] = f_{ab}^{\phantom{ab}c}t_c\,.
+\end{equation}
+The numbers $f_{ab}^{\phantom{ab}c}$ are the structure constants in this
+basis.  Antisymmetry and the Jacobi identity impose corresponding relations
+on them.  A different basis changes the structure constants but not the Lie
+algebra.  The dimension of $\mathfrak{g}$ equals the dimension of $G$ as a
+manifold.
+
+A group or algebra can act on many different spaces.  A
+\emph{representation} of a group on a vector space $V$ is a homomorphism
+\footnote{
+    The general linear group $\operatorname{GL}_n(\mathbb{F})$ is the set of
+    $n\times n$ invertible matrices over the field $\mathbb{F}$, together
+    with the operation of ordinary matrix multiplication.
+}
+\begin{equation}
+    \rho:G\longrightarrow \operatorname{GL}(V)\,,
+    \qquad \rho(g_1g_2) = \rho(g_1)\rho(g_2)\,,
+\end{equation}
+and a representation of its algebra is a linear map
+\footnote{The result on the right is often written as $[\rho_*(X),\rho_*(Y)]$
+using the ordinary commutator. One has hence to be careful to distinguish
+it from the Lie bracket.}
+\begin{equation}
+    \rho_*:\mathfrak{g}\longrightarrow\mathfrak{gl}(V)\,,
+    \qquad
+    \rho_*([X,Y]) = \rho_*(X)\rho_*(Y) - \rho_*(Y)\rho_*(X)\,.
+\end{equation}
+A representation is
+therefore a concrete realisation of abstract generators as matrices or
+linear operators.  It is \emph{faithful} if different algebra elements give
+different operators.  Much of Lie theory in accelerator physics consists of
+choosing the representation best suited to the calculation: matrices for
+linear optics, differential operators for nonlinear maps, or finite
+truncations acting on Taylor coefficients (TPSAs) for numerical
+implementations of nonlinear maps.
+
+
+\subsection{Example: real \texorpdfstring{$2\times2$}{2 x 2} matrices}
+
+Consider
+\begin{equation}
+    G = \operatorname{GL}_2(\mathbb{R})
+      = \{A\in\mathbb{R}^{2\times2}:\det A\ne0\}\,.
+\end{equation}
+This is a Lie group under matrix multiplication.  It is not a vector space:
+the zero matrix is excluded, and two invertible matrices can have a singular
+sum.  A curve through the identity can be written
+$A(t) = I + tX + \mathcal{O}(t^2)$, where $X$ is an arbitrary real $2\times2$
+(potentially singular) matrix.  Hence
+\begin{equation}
+    \mathfrak{gl}(2,\mathbb{R}) = \mathbb{R}^{2\times2}\,,
+    \qquad [X,Y] = XY - YX\,.
+\end{equation}
+The commutator obeys Eqs.~\eqref{eq:lie-bilinear}--\eqref{eq:lie-jacobi}.
+Using the four matrices $E_{ij}$, with a one in row $i$, column $j$, and
+zeros elsewhere, as generators gives
+\begin{equation}
+    [E_{ij},E_{kl}] = \delta_{jk}E_{il}-\delta_{li}E_{kj}\,.
+\end{equation}
+For example,
+$[E_{12},E_{21}] = E_{11}-E_{22}$.  This is the elementary model for the
+same commutator structure encountered with larger transfer matrices.
+
+
+\subsection{Example: \texorpdfstring{$\mathfrak{su}(N)$}{su(N)}}
+
+The special unitary group is
+\begin{equation}
+    \operatorname{SU}(N) = \{U\in\mathbb{C}^{N\times N}:U^\dagger U
+                         = I,\ \det U = 1\}\,.
+\end{equation}
+Put $U(t) = I + tX + \mathcal{O}(t^2)$ and differentiate both defining
+conditions at $t = 0$.  One obtains
+\begin{equation}
+    \mathfrak{su}(N) = \{X\in\mathbb{C}^{N\times N}:X^\dagger
+                     = -X,\ \Tr X = 0\}\,,
+    \qquad [X,Y] = XY - YX\,.
+\end{equation}
+It is a real vector space of dimension $N^2-1$.  Physicists often prefer
+Hermitian generators $t_a$ and write $X_a = -\ii t_a$.  With the conventional
+normalisation,
+\begin{equation}
+    [t_a,t_b] = \ii f_{ab}^{\phantom{ab}c}t_c\,,
+    \qquad
+    [X_a,X_b] = f_{ab}^{\phantom{ab}c}X_c\,.
+\end{equation}
+For $\operatorname{SU}(2)$ one may take $t_a = \sigma_a/2$, where the
+$\sigma_a$ are the Pauli matrices, and
+$f_{ab}^{\phantom{ab}c} = \epsilon_{abc}$.  This example is useful because it
+separates the abstract real Lie algebra from two common matrix conventions:
+anti-Hermitian generators are closed under the ordinary commutator, whereas
+Hermitian generators introduce an explicit factor of $\ii$.
+
+
+
+\section{Hamiltonian Maps in Six-Dimensional Phase Space}
+
+The application of Lie algebra to nonlinear accelerator physics takes us
+one step beyond ordinary matrix spaces, and requires a bit of differential
+geometry to lay the necessary mathematical foundation. One can skip some of
+these parts and jump directly to the relevant part on the Lie algebra of
+Hamiltonian maps in Sec.~\ref{sec:hamiltonian-lie-algebra}.
+
+\subsection{Manifolds}
+A smooth $n$-dimensional \emph{manifold} $M$ is a space that looks locally
+like $\mathbb{R}^n$: every point has a neighbourhood that can be described
+by $n$ coordinates, and changes between overlapping coordinate systems are
+smooth.  Coordinates therefore let us perform calculations locally, but the
+coordinate tuple assigned to a point should not be confused with the point
+itself.
+
+For a particle in three degrees of freedom, the familiar canonical phase
+space is
+\begin{equation}
+    M = \mathbb{R}^6,\qquad
+    \vec z = (q_1,p_1,q_2,p_2,q_3,p_3)^T\,.
+\end{equation}
+This particular manifold \emph{is} a vector space: componentwise addition
+and scalar multiplication remain in $\mathbb{R}^6$, and all vector-space
+axioms follow component by component from those of $\mathbb{R}$.  A general
+manifold, however, need not be a vector space.  For instance, the
+configuration space of a plane pendulum is the circle $S^1$, and its phase
+space is
+\begin{equation}
+    T^*S^1 \simeq S^1\times\mathbb{R}\,,
+\end{equation}
+which is a cylinder: the angle is periodic, whereas its conjugate momentum
+is real.  By itself, the manifold structure supplies neither addition nor
+scalar multiplication of points. We could define addition as, for instance,
+\begin{equation}
+    \left(\theta_1, p_1\right) + \left(\theta_2, p_2\right)
+    = \left(\theta_1 + \theta_2 \;(\text{mod } 2\pi), p_1 + p_2\right)\,,
+\end{equation}
+which works beautifully. But notice something subtle: here we have implicitly
+chosen which point of the circle corresponds to $\theta = 0$ to deal with the
+periodicity of the angle. And this is the key point: the manifold structure by
+itself supplies no preferred addition law for points.  A coordinate-independent
+addition law can certainly exist, as it does when the manifold is also a Lie
+group, but it is \emph{additional structure} rather than part of the definition
+of a manifold. More fundamentally, every finite-dimensional real vector space
+is topologically equivalent to some $\mathbb{R}^n$ and can be continuously
+contracted to a point, whereas a loop around the cylinder cannot be contracted.
+Thus, being locally Euclidean does not make a manifold a vector space.
+
+\subsection{Tangent space}
+Although points of a general manifold cannot be added, the infinitesimal
+directions at any fixed point can.  These directions form the \emph{tangent
+space} $T_p M$ at $p\in M$.  One way to define a tangent vector at $p$ is by
+a smooth curve $\gamma(t)$ through that point, with $\gamma(0) = p$: two curves
+represent the same tangent vector if their derivatives at $t = 0$ agree in one
+(and hence every) local coordinate system.  In local coordinates
+$(x^1,\ldots,x^n)$, a tangent vector can be written
+\begin{equation}
+    v = \sum_{i = 1}^n v^i\left.\frac{\partial}{\partial x^i}\right|_p\,.
+\end{equation}
+Its components depend on the chosen coordinates, but the vector itself does
+not.
+
+Crucially, $T_p M$ \emph{is} an $n$-dimensional vector space, even when $M$
+is not: tangent vectors based at the same point may be added and multiplied
+by scalars.  The collection of tangent spaces at all points is the
+\emph{tangent bundle}
+\begin{align}
+    T M & = \bigsqcup_{p\in M} T_p M\,, \\
+    & = \{(p, v) \mid p \in M, v \in T_p M\}\,.
+\end{align}
+The \emph{cotangent space} $T_p^* M$ is the dual vector space of $T_p M$; its
+elements are linear maps $T_p M\to\mathbb{R}$.  In the coordinates above it
+has the dual basis $(\dee x^1,\ldots,\dee x^n)$.  Collecting these dual spaces
+gives the \emph{cotangent bundle}
+\begin{align}
+    T^* M & = \bigsqcup_{p\in M} T_p^* M\,, \\
+    & = \{(p, v^*) \mid p \in M, v^* \in T_p^* M\}\,.
+\end{align}
+This explains the notation used for the pendulum: a point of $T^*S^1$ is a
+pair $(\theta,p_\theta)$, where $\theta\in S^1$ specifies the configuration
+and $p_\theta\,\dee\theta\in T_\theta^*S^1$ is its conjugate momentum.
+\paragraph{Practical interpretation in phase space.}
+For accelerator calculations, these abstract spaces have a very concrete
+meaning.  If $z = (q_1,p_1,\ldots,q_n,p_n)\in M$ is a phase-space point, then a
+tangent vector $v\in T_zM$ is represented in canonical coordinates by an
+infinitesimal phase-space variation
+\begin{equation}
+    \delta\vec z = (\delta q_1,\delta p_1,\ldots,
+    \delta q_n,\delta p_n)^T\,.
+\end{equation}
+Equivalently, it may be the velocity $\dot{\vec z}(0)$ of a curve through
+$z$.  Thus the tangent vectors of phase space are \emph{not} the canonical
+momenta: the $p_i$ are already coordinates of the point $z\in M$, whereas a
+tangent vector describes how the complete phase-space point changes.  For
+example, the Jacobian of a tracking map acts precisely on such variations,
+$\delta\vec z_{\rm out} = D\mathcal M_z\,\delta\vec z_{\rm in}$.
+
+A cotangent vector $\alpha\in T_z^*M$ is instead a linear rule that assigns a
+number to each infinitesimal variation.  In coordinates,
+\begin{equation}
+    \alpha = \alpha_i\,\dee z^i,
+    \qquad
+    \alpha(v) = \alpha_i v^i\,.
+\end{equation}
+The differential of a scalar function is the most common example:
+$\dee f = (\partial f/\partial z^i)\dee z^i$ and
+$\dee f(v) = v^i\partial_i f$, the directional derivative of $f$ along $v$.
+Writing a covector as a row vector or ``gradient'' is therefore a coordinate
+representation; identifying it with a vector by a dot product additionally
+uses a metric and should not be confused with the intrinsic vector--covector
+duality.
+
+There is one related use of the word momentum that is important but lives one
+level lower.  If the phase space itself is a cotangent bundle $M = T^*Q$, then
+a phase-space point is $(q,p)$ with $q\in Q$ and $p\in T_q^*Q$.  In that sense
+the canonical momenta are the components of a covector on the
+\emph{configuration space} $Q$; they are still not tangent vectors of the
+phase space $M$.
+
+\subsection{Symplectic manifolds}
+Phase space carries yet another layer of structure.  At a point $p\in M$, an
+alternating covariant 2-tensor is an element
+\begin{equation}
+    \omega_p\in\bigwedge^2 T_p^*M\,.
+\end{equation}
+Here $\bigwedge^2 T_p^*M$ is the vector space of antisymmetric bilinear
+functions
+\begin{equation}
+    \omega_p:T_pM\times T_pM\longrightarrow\mathbb{R},
+    \qquad \omega_p(u,v) = -\omega_p(v,u)\,.
+\end{equation}
+A \emph{differential 2-form} $\omega$ on $M$ is a choice of such a tensor
+$\omega_p$ at every $p$ that varies smoothly with $p$.  The vector space of
+all differential 2-forms on $M$ is denoted by $\Omega^2(M)$.  The pair
+$(M,\omega)$ is a \emph{symplectic manifold} if $\omega$ is closed and
+non-degenerate:
+\begin{align}
+    \dee\omega & = 0\,, \\
+    \omega_p(v,w) = 0\ \forall w\in T_pM
+    &\quad\Longleftrightarrow\quad v = 0\,.
+\end{align}
+Here $\dee\omega$ is the exterior derivative of $\omega$, and the second
+condition is required at every $p\in M$.
+An antisymmetric bilinear form can be non-degenerate only in even dimensions.
+Darboux's theorem guarantees that, near every point of a
+$2n$-dimensional symplectic manifold, there are canonical coordinates in
+which
+\begin{equation}
+    \omega = \sum_{j = 1}^{n}\dee q_j\wedge\dee p_j\,.
+\end{equation}
+For the pendulum this is $\omega = \dee\theta\wedge\dee p_\theta$; the same
+local formula works even though $\theta$ is not a global real coordinate.
+For the special case $M = \mathbb R^6$, there is a natural identification
+\begin{equation}
+    T_z\mathbb R^6\simeq\mathbb R^6\,.
+\end{equation}
+at every $z$.  Therefore, we can write
+\begin{equation}
+    \omega:\mathbb R^6\times\mathbb R^6\to\mathbb R, \quad
+    \omega(u,v) = u^T S v\,,
+\end{equation}
+with
+\begin{equation}
+    S = \begin{pmatrix}
+    0 & 1 & 0 & 0 & 0 & 0\\
+    -1 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 0\\
+    0 & 0 & -1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 0 & -1 & 0
+    \end{pmatrix}\,.
+\end{equation}
+We can hence think of $S$ as the coordinate representation of $\omega$.
+
+\subsection{Symplectic maps}
+A canonical, or symplectic, map $\mathcal{M}:M\to M$ is a diffeomorphism
+that preserves the symplectic form.  The easiest way to understand this is to
+follow two infinitesimal phase-space variations.  At $z\in M$, the
+differential (or \emph{pushforward})
+\begin{equation}
+    D\mathcal{M}_z:T_zM\longrightarrow T_{\mathcal{M}(z)}M\,.
+\end{equation}
+propagates a tangent vector $u$ at the entrance into the tangent vector
+$D\mathcal M_z u$ at the image point.  In accelerator language this is the
+linearised tracking map about the reference point $z$.
+
+The symplectic form at the image point can therefore be evaluated on the two
+transported vectors,
+\begin{equation}
+    \omega_{\mathcal M(z)}
+    \bigl(D\mathcal M_z u,D\mathcal M_z v\bigr)\,.
+\end{equation}
+This quantity depends on the original point $z$ and on the original vectors
+$u,v\in T_zM$, so it defines a new 2-form at $z$.  That new form is, by
+definition, the \emph{pullback} of $\omega$ by $\mathcal M$:
+\begin{equation}\label{eq:pullback-two-form}
+    (\mathcal M^*\omega)_z(u,v)
+    \equiv
+    \omega_{\mathcal M(z)}
+    \bigl(D\mathcal M_z u,D\mathcal M_z v\bigr)\,.
+\end{equation}
+Thus $D\mathcal M$ pushes vectors forward, while $\mathcal M^*$ pulls forms
+back so that they can again be compared at the original point.  The map is
+symplectic precisely when this comparison shows no change,
+\begin{equation}\label{eq:symplectic-condition}
+    \mathcal M^*\omega = \omega\,,
+\end{equation}
+or, point by point,
+\begin{equation}
+    \omega_{\mathcal M(z)}
+    \bigl(D\mathcal M_z u,D\mathcal M_z v\bigr) = \omega_z(u,v)\,,
+\end{equation}
+for every $z$ and every $u,v\in T_zM$.  Nothing physically moves ``backwards''
+in a pullback: it is simply the bookkeeping operation that expresses a form
+from the output point in terms of input tangent vectors.
+
+In canonical coordinates on the $2n$-dimensional phase space, let
+$J(\vec z):\mathbb R^{2n}\to\mathbb R^{2n}$ be the Jacobian matrix
+representing $D\mathcal{M}_z$, with entries
+$J_{ij}(\vec z) = \partial \mathcal{M}_i/\partial z_j$.  Thus, if $\vec u$ is
+the coordinate vector representing $u\in T_zM$, then $J(\vec z)\vec u$
+represents $D\mathcal{M}_z u\in T_{\mathcal{M}(z)}M$.  Since the matrix of
+$\omega$ is the constant matrix $S$ in these coordinates, the preceding
+identity becomes, for arbitrary coordinate vectors $\vec u$ and $\vec v$,
+\begin{equation}
+    \bigl(J(\vec z)\vec u\bigr)^T S
+    \bigl(J(\vec z)\vec v\bigr) = \vec u^T S\vec v\,.
+\end{equation}
+Equivalently,
+\begin{equation}
+    \vec u^T\bigl(J(\vec z)^T S J(\vec z)-S\bigr)\vec v = 0\,,
+\end{equation}
+for all $\vec u$ and $\vec v$.  The matrix in parentheses must therefore
+vanish, which gives the familiar Jacobian condition
+\begin{equation}\label{eq:symplectic-jacobian}
+    J(\vec z)^T S J(\vec z) = S\,.
+\end{equation}
+Consequently, in canonical coordinates,
+Eq.~\eqref{eq:symplectic-jacobian} is equivalent to the geometric
+symplecticity condition~\eqref{eq:symplectic-condition}.
+
+For a \emph{linear} map $\vec z\mapsto R\vec z$, the Jacobian is simply the
+constant matrix $R$.  The linear symplectic maps therefore form the
+\emph{symplectic group}
+\begin{equation}
+    \operatorname{Sp}(2n,\mathbb R) = \{R\in\operatorname{GL}(2n,\mathbb R)
+    \mid R^T S R = S\}\,.
+\end{equation}
+This is the group containing the familiar linear transfer matrices of
+Hamiltonian beam optics.  To find its Lie algebra, write a curve through the
+identity as $R(t) = I + tA + \mathcal O(t^2)$ and differentiate
+$R(t)^TSR(t) = S$ at $t = 0$.  One obtains
+\begin{equation}\label{eq:symplectic-lie-algebra}
+    \mathfrak{sp}(2n,\mathbb R) = \{A\in\mathbb R^{2n\times2n}
+    \mid A^TS + SA = 0\}\,.
+\end{equation}
+Equivalently, $SA$ is symmetric.  This provides the direct linear analogue of
+the nonlinear construction below: a symplectic matrix is a finite canonical
+transformation, while an element of $\mathfrak{sp}(2n,\mathbb R)$ is its
+infinitesimal generator.  For quadratic Hamiltonians the Hamiltonian vector
+field is linear, so exponentiating that vector field reproduces precisely a
+matrix in $\operatorname{Sp}(2n,\mathbb R)$.  Higher-order Hamiltonians are
+the nonlinear extension of the same idea.
+
+
+\subsection{Hamiltonian Lie algebra and Poisson algebra}
+\label{sec:hamiltonian-lie-algebra}
+The infinitesimal generators of Hamiltonian maps are smooth functions on
+phase space.  Let $C^\infty(M)$ denote all smooth real-valued functions on
+$M$.  It is a vector space under pointwise operations,
+\begin{equation}
+    (af + bg)(z) = af(z) + bg(z)\,.
+\end{equation}
+Indeed, a linear combination of smooth functions is smooth, so the set is
+closed; all the remaining vector-space laws follow from the corresponding
+laws for real numbers at every point $z$.  This is also an
+infinite-dimensional vector space.  For example, on a canonical coordinate
+patch the functions $1,q_1,q_1^2,\ldots$ (multiplied by a smooth cutoff if
+the patch is not global) contain arbitrarily large linearly independent
+subsets.
+
+The relevant functions here are \emph{smooth Hamiltonians}, not necessarily
+``integrable functions.''  An integrable Hamiltonian in the Liouville sense
+is a Hamiltonian system with sufficiently many independent invariants in
+involution; such Hamiltonians do not form the vector space used below.
+Likewise, mere integrability in the measure-theoretic sense would not provide
+the derivatives needed for a Poisson bracket.
+
+In canonical coordinates the Poisson bracket is
+\begin{equation}\label{eq:canonical-poisson-bracket}
+    \poissonfull{f}{g} = \sum_{j = 1}^{n}\left(
+    \partder{f}{q_j}\partder{g}{p_j}
+    -\partder{f}{p_j}\partder{g}{q_j}
+    \right)\,.
+\end{equation}
+This is the convention used by Dragt and Forest: the first argument is
+differentiated with respect to the coordinate $q_j$ in the first term.  In
+particular,
+\begin{equation}
+    \poisson{q_i}{p_j} = \delta_{ij},\qquad
+    \poisson{q_i}{q_j} = \poisson{p_i}{p_j} = 0\,.
+\end{equation}
+It is bilinear and antisymmetric, satisfies the Jacobi identity, and maps
+two smooth functions to another smooth function.  Therefore
+$(C^\infty(M),\poissonfull{\slot}{\slot})$ is a Lie algebra.  A constant has
+zero Poisson bracket with every function and generates no motion, so
+Hamiltonians that differ only by a constant describe the same infinitesimal
+map.  On a connected phase space the non-redundant algebra is consequently
+\begin{equation}\label{eq:hamiltonian-lie-algebra}
+    \mathfrak{ham}(M)\simeq C^\infty(M)/\mathbb{R}\,.
+\end{equation}
+This quotient is again a vector space: define
+$\lfloor f\rfloor + \lfloor g\rfloor = \lfloor f + g\rfloor$ and
+$a\lfloor f\rfloor = \lfloor a f\rfloor$, where $\lfloor f\rfloor$ denotes
+all functions that differ from $f$ by a constant.  Changing representatives
+only changes the result by a constant, so these operations are well-defined.
+The same argument and $\poisson{f + c}{g + d} = \poisson{f}{g}$ show that
+the Poisson bracket is well-defined on the quotient.  The algebra remains
+infinite-dimensional.  With the conventions used here, the bracket-preserving
+identification with the tangent vector fields is
+\begin{equation}
+    \lfloor f\rfloor \longmapsto -X_f\,,
+    \qquad [-X_f,-X_g] = -X_{\poisson{f}{g}}\,.
+\end{equation}
+One may instead identify $\lfloor f\rfloor$ with $X_f$.  The corresponding
+function-space bracket then acquires an overall minus sign.  This harmless
+choice is the origin of several sign conventions in the Lie-map literature.
+
+There is a small global qualification behind
+Eq.~\eqref{eq:hamiltonian-lie-algebra}. The tangent algebra to all symplectic
+maps consists of symplectic vector fields; a symplectic vector field need only
+be locally Hamiltonian.  On the usual $\mathbb{R}^6$ phase space every such
+field of interest is generated by a global Hamiltonian, while on a manifold
+with non-trivial topology the Hamiltonian maps can form a proper subgroup of
+all symplectic maps.  For local accelerator maps, $C^\infty(M)/\mathbb{R}$ is
+the algebra normally used.
+
+The full function space has still more structure.  With ordinary pointwise
+multiplication it is a commutative associative algebra, and the bracket
+satisfies the Leibniz rule
+\begin{equation}\label{eq:poisson-leibniz}
+    \poisson{f}{gh} = \poisson{f}{g}h + g\poisson{f}{h}\,.
+\end{equation}
+A commutative algebra equipped with a Lie bracket satisfying
+Eq.~\eqref{eq:poisson-leibniz} is called a \emph{Poisson algebra}.  Thus
+$C^\infty(M)$ is both a commutative algebra and a Lie algebra, with the two
+products tied together by the Leibniz rule.  Strictly speaking, the quotient
+$C^\infty(M)/\mathbb{R}$ is a Lie algebra but not a Poisson algebra under
+pointwise multiplication, because constants are not an ideal for that
+multiplication.  In calculations one therefore keeps representatives in
+$C^\infty(M)$ and discards irrelevant constant terms when interpreting the
+generator.
+
+This Poisson-algebra structure is particularly useful for accelerator
+physics.  It permits brackets of polynomial Hamiltonians to be evaluated by
+ordinary differentiation and multiplication, it extends immediately to
+Taylor and truncated-power-series representations, and the Leibniz rule
+controls the action of a generator on products of observables.  At the same
+time, working with a Hamiltonian generator rather than arbitrary Taylor
+coefficients keeps the underlying map canonical.
+
+
+\section{Exponentiation}
+
+\subsection{From an infinitesimal generator to a finite transformation}
+
+For a Lie group $G$ with algebra $\mathfrak{g}$, the exponential map
+\begin{equation}
+    \exp:\mathfrak{g}\longrightarrow G\,.
+\end{equation}
+is defined through one-parameter subgroups.  For every $X\in\mathfrak g$
+there is a unique one-parameter subgroup $\gamma_X:\mathbb R\to G$ with
+\begin{equation}
+    \gamma_X(0) = e,\qquad
+    \dot\gamma_X(0) = X,\qquad
+    \gamma_X(t + s) = \gamma_X(t)\gamma_X(s)\,.
+\end{equation}
+The parameter is $t\in\mathbb R$, not merely $t\ge0$: negative values give
+the inverse transformation,
+$\gamma_X(-t) = \gamma_X(t)^{-1}$.  At this abstract stage $t$ is only a group
+parameter; depending on the application it may later be physical time,
+longitudinal position, an angle, a magnet strength multiplied by a length, or
+simply a dimensionless interpolation parameter.  One defines
+\begin{equation}
+    \exp(tX)\equiv\gamma_X(t),\qquad \exp(X) = \gamma_X(1)\,.
+\end{equation}
+Thus exponentiation means following the same infinitesimal generator $X$ for
+a finite amount of its parameter.  This geometric construction is the
+definition; a power series appears only after choosing a representation in
+which the generator is a linear operator.
+
+For a matrix Lie group, $X$ is a matrix and the group exponential is exactly
+the convergent matrix series
+\begin{equation}\label{eq:matrix-exponential}
+    \exp X = I + X + \frac{X^2}{2!} + \frac{X^3}{3!} + \cdots\,.
+\end{equation}
+More generally, let
+\begin{equation}
+    \rho:G\to\operatorname{GL}(V)\,.
+\end{equation}
+be a representation of the group.  Its differential at the identity,
+\begin{equation}
+    \rho_*\equiv(\dee\rho)_e:
+    \mathfrak g\to\mathfrak{gl}(V)\,,
+\end{equation}
+is the corresponding Lie-algebra representation introduced above.  It maps
+the abstract infinitesimal generator $X$ to the linear operator
+$\rho_*(X)$ acting on $V$.  Group exponentiation and operator exponentiation
+then commute with the representation:
+\begin{equation}\label{eq:representation-exponential}
+    \rho(\exp tX) = \exp\!\bigl(t\,\rho_*(X)\bigr)\,.
+\end{equation}
+This equation is not an additional definition: it states that representing a
+finite group transformation gives the same result as first representing its
+generator and then exponentiating that operator.
+
+For bounded operators the analogous operator series converges.  For
+unbounded differential operators, or for formal Taylor maps, its domain and
+convergence require care and the series is often used order by order as a
+formal series.  Moreover, the exponential need not be one-to-one or cover
+the entire group, although for a finite-dimensional Lie group its image
+contains a neighbourhood of the identity.
+
+
+\subsection{Example: \texorpdfstring{$\operatorname{SU}(N)$}{SU(N)}}
+
+If $X\in\mathfrak{su}(N)$, Eq.~\eqref{eq:matrix-exponential} gives an
+element of $\operatorname{SU}(N)$.  Indeed,
+\begin{equation}
+    (\e^X)^\dagger\e^X = \e^{X^\dagger}\e^X = \e^{-X}\e^X = I\,,
+    \qquad
+    \det(\e^X) = \e^{\Tr X} = 1\,.
+\end{equation}
+With Hermitian physics generators this is commonly written
+\begin{equation}
+    U(\vec\theta) = \exp(-\ii\theta^aT_a)\,.
+\end{equation}
+The generator is linear in the parameters, while the exponential builds the
+finite, generally non-commuting transformation.
+
+
+\subsection{Example: Hamiltonian flow}
+
+The preceding abstract construction becomes especially concrete in phase
+space.  Let $f\in C^\infty(M)$.  Its Hamiltonian vector field $X_f$ is the
+vector field defined, for the symplectic convention used here, by
+\begin{equation}\label{eq:hamiltonian-vector-field-geometric}
+    \iota_{X_f}\omega = \dee f\,,
+\end{equation}
+where $\iota_{X_f}$ denotes insertion of $X_f$ into the first argument of the
+2-form.  In canonical coordinates this gives
+\begin{equation}\label{eq:hamiltonian-vector-field}
+    X_f = \sum_{j = 1}^{n}\left(
+    \partder{f}{p_j}\partder{}{q_j}
+    -\partder{f}{q_j}\partder{}{p_j}
+    \right),
+    \qquad
+    X_f g = \poisson{g}{f} = -\poisson{f}{g}\,.
+\end{equation}
+Thus $X_f(z)\in T_zM$ gives an infinitesimal direction of motion at every
+phase-space point.
+
+The \emph{flow} of this vector field is the family of point maps
+\begin{equation}
+    \Phi_f^t:M\to M\,.
+\end{equation}
+defined by the initial-value problem
+\begin{equation}\label{eq:hamiltonian-flow-definition}
+    \totder{}{t}\Phi_f^t(z) = X_f\!\left(\Phi_f^t(z)\right),
+    \qquad
+    \Phi_f^0(z) = z\,.
+\end{equation}
+For each initial point $z$, the curve $t\mapsto\Phi_f^t(z)$ is the integral
+curve of $X_f$ through $z$.  If $f = H$ is the physical Hamiltonian and $t$ is
+physical time, Eq.~\eqref{eq:hamiltonian-flow-definition} is simply
+Hamilton's equations,
+\begin{equation}
+    \dot q_j = \partder{H}{p_j},\qquad
+    \dot p_j = -\partder{H}{q_j}\,,
+\end{equation}
+or, for any observable $g$ with no explicit $t$ dependence,
+\begin{equation}\label{eq:observable-hamilton-equation}
+    \totder{g}{t} = X_Hg = \poisson{g}{H}\,.
+\end{equation}
+In accelerator applications the evolution parameter need not be time; after
+a suitable Hamiltonian formulation it is often the longitudinal coordinate
+$s$.  Mathematically nothing changes.
+
+For an autonomous generator, the flow satisfies
+\begin{equation}
+    \Phi_f^{t + s} = \Phi_f^t\circ\Phi_f^s,
+    \qquad
+    (\Phi_f^t)^{-1} = \Phi_f^{-t}\,,
+\end{equation}
+whenever the relevant solutions exist.  It is therefore a one-parameter
+(local, or global when the vector field is complete) group of
+diffeomorphisms, and the group exponential is its unit-parameter map,
+\begin{equation}
+    \exp(tX_f) = \Phi_f^t,\qquad \exp(X_f) = \Phi_f^1\,.
+\end{equation}
+This is the precise meaning of exponentiating a Hamiltonian vector field.
+
+The flow is symplectic.  Cartan's formula and
+Eq.~\eqref{eq:hamiltonian-vector-field-geometric} give
+\begin{equation}
+    \mathcal L_{X_f}\omega = \dee(\iota_{X_f}\omega) + \iota_{X_f}(\dee\omega)
+                           = \dee^2f = 0\,.
+\end{equation}
+Using the standard identity for differentiation of a pulled-back form along
+a flow,
+\begin{equation}
+    \totder{}{t}(\Phi_f^t)^*\omega = (\Phi_f^t)^*(\mathcal L_{X_f}\omega) = 0\,,
+\end{equation}
+so $(\Phi_f^t)^*\omega = \omega$ because $\Phi_f^0$ is the identity.  In
+words: infinitesimal Hamiltonian motion preserves the symplectic form, hence
+so does the finite map obtained by following that motion.
+
+If the generator depends explicitly on the evolution parameter,
+$f = f_t$, the maps from different parameter values are generated by different
+vector fields and do not in general form $\exp(tX_f)$ for one fixed $X_f$.
+The solution is then a parameter-ordered exponential (or, equivalently, the
+solution of the non-autonomous flow equation).  This is analogous to a
+sequence of non-commuting beam-line elements, which cannot generally be
+replaced by the exponential of their simple sum.
+
+
+\subsection{The adjoint representation}
+
+Every Lie group has a natural representation on its own algebra.  Conjugate
+a group element close to the identity by $g\in G$ and differentiate at the
+identity:
+\begin{equation}
+    \operatorname{Ad}_gX = \left.\totder{}{t}\right|_{t = 0}
+    g\exp(tX)g^{-1}\,.
+\end{equation}
+This is the \emph{adjoint representation} of the group.  For a matrix group,
+\begin{equation}
+    \operatorname{Ad}_gX = gXg^{-1}\,.
+\end{equation}
+Differentiating once more gives the adjoint representation of the algebra,
+\begin{equation}\label{eq:adjoint-algebra}
+    \operatorname{ad}_X:\mathfrak{g}\longrightarrow\mathfrak{g}\,,
+    \qquad \operatorname{ad}_X(Y) = [X,Y]\,.
+\end{equation}
+The Jacobi identity is exactly the statement
+\begin{equation}\label{eq:ad-commutator}
+    [\operatorname{ad}_X,\operatorname{ad}_Y] = \operatorname{ad}_{[X,Y]}\,.
+\end{equation}
+Thus the adjoint operators form a Lie algebra under the operator commutator.
+More precisely, $\operatorname{ad}_X$ is an element of
+$\mathfrak{gl}(\mathfrak{g})$, not in general an element of the original
+$\mathfrak{g}$; the image $\operatorname{ad}(\mathfrak{g})$ is a Lie
+subalgebra of operators.  Elements in the centre of $\mathfrak{g}$ act as
+zero, so the adjoint representation is faithful precisely when the centre is
+trivial.
+
+Exponentiating this representation gives
+\begin{equation}\label{eq:exp-adjoint}
+    \operatorname{Ad}_{\exp X} = \exp(\operatorname{ad}_X)
+    = I + \operatorname{ad}_X + \frac{\operatorname{ad}_X^2}{2!} + \cdots\,.
+\end{equation}
+This is now an ordinary exponential series of linear operators acting on
+algebra elements.  For $\operatorname{SU}(N)$,
+\begin{equation}
+    \operatorname{Ad}_U(Y) = UYU^\dagger\,,
+    \qquad \operatorname{ad}_X(Y) = [X,Y]\,,
+\end{equation}
+and Eq.~\eqref{eq:exp-adjoint} states
+$\e^XY\e^{-X} = \e^{\operatorname{ad}_X}Y$.
+In the generator basis $X_a = -\ii T_a$, the matrices of the adjoint
+representation have components
+$(\operatorname{ad}_{X_a})_b^{\phantom{b}c} = f_{ab}^{\phantom{ab}c}$\,.
+
+
+\subsection{Lie operators on phase-space functions}
+
+The adjoint representation of the Hamiltonian algebra is the Lie operator
+used in nonlinear beam dynamics:
+\begin{equation}\label{eq:colon-definition}
+    \Lie{f} \,g \equiv \operatorname{ad}_f(g) = \poisson{f}{g}\,.
+\end{equation}
+It is a linear differential operator on functions, and the Jacobi identity
+gives
+\begin{equation}
+    [\Lie{f},\Lie{g}] = \Lie{\poisson{f}{g}}\,.
+\end{equation}
+Constants disappear automatically, so this is a representation of
+$C^\infty(M)/\mathbb{R}$.  The exponentiated Lie operator is
+\begin{equation}\label{eq:lie-exponential}
+    \e^{\lie{f}} g = g + \poisson{f}{g}
+    + \frac{1}{2!}\poisson{f}{\poisson{f}{g}} + \cdots\,.
+\end{equation}
+Unlike the abstract definition of the group exponential, this expression
+\emph{is} an exponential power series: it is the operator exponential in the
+adjoint representation.
+
+The relation to the point flow is now immediate.  With the Dragt--Forest
+convention of Eq.~\eqref{eq:canonical-poisson-bracket},
+\begin{equation}
+    \Lie{f}g = \poisson{f}{g} = -X_fg\,.
+\end{equation}
+Therefore the operator exponential acts on a function by pullback along the
+\emph{inverse} Hamiltonian flow,
+\begin{equation}\label{eq:lie-flow-relation}
+    \e^{t\,\lie{f}}g = g\circ\Phi_f^{-t} = (\Phi_f^{-t})^*g\,.
+\end{equation}
+In particular, applying it componentwise to the coordinate functions gives
+\begin{equation}
+    \Phi_H^t(\vec z) = \e^{-t\,\lie{H}}\vec z\,.
+\end{equation}
+This minus sign is not a dynamical convention hidden in Hamilton's equations;
+it comes solely from defining the Lie operator with the generator in the
+\emph{first} Poisson-bracket slot, $\Lie{f}g = \poisson{f}{g}$, whereas the
+Hamiltonian vector field acts as $X_fg = \poisson{g}{f}$.  This is the
+Dragt--Forest convention used throughout this chapter.
+
+Because of the Leibniz rule, $\Lie{f}$ is a derivation.  Its exponential is
+therefore an algebra automorphism:
+\begin{equation}
+    \e^{\lie{f}}(gh) = (\e^{\lie{f}}g)(\e^{\lie{f}}h)\,,
+    \qquad
+    \poisson{\e^{\lie{f}}g}{\e^{\lie{f}}h} = \e^{\lie{f}}\poisson{g}{h}\,.
+\end{equation}
+Acting on the coordinate functions gives a canonical map,
+\begin{equation}
+    \mathcal{M}_f(\vec z) = \e^{\lie{f}}\vec z = \Phi_f^{-1}(\vec z)\,,
+\end{equation}
+where the exponential acts on every component of $\vec z$ and the final
+equality refers to unit flow parameter.  Thus a Lie map with generator $f$
+is the inverse unit-parameter flow of the Hamiltonian vector field $X_f$ under
+the convention adopted here.  Products of
+these exponentials are the \emph{compositional maps} used in Lie
+factorisations~\cite{DragtFinn1976,DragtForest1983}.  Non-commutativity is
+retained through the Baker--Campbell--Hausdorff series; formally,
+\begin{equation}
+    \e^{\lie{f}}\e^{\lie{g}} = \e^{\lie{h}},\qquad
+    h = f + g + \frac{1}{2}\poisson{f}{g} + \cdots\,,
+\end{equation}
+up to an irrelevant additive constant in $h$.
+
+
+\subsection{Why map order can appear to be reversed}
+
+Two related objects are frequently denoted by the same symbol in the
+accelerator literature:
+\begin{enumerate}
+ \item a \emph{point map} $\mathcal{A}:M\to M$, which takes a phase-space
+       point as its argument; and
+ \item the corresponding \emph{coordinate-substitution operator}
+       $\widehat{\mathcal{A}}$, which acts on a function according to
+       \begin{equation}
+    \widehat{\mathcal{A}}g = g\circ\mathcal{A}\,.
+\end{equation}
+\end{enumerate}
+Even if $\mathcal{A}$ is nonlinear, $\widehat{\mathcal{A}}$ is a linear
+operator on the vector space of functions.  In particular,
+$\widehat{\mathcal{M}_f} = \e^{\lie{f}}$.
+
+Suppose a particle first passes through $\mathcal{A}$ and then through
+$\mathcal{B}$.  For point maps with explicit arguments,
+\begin{equation}\label{eq:point-map-order}
+    \vec z_1 = \mathcal{A}(\vec z_0)\,,\qquad
+    \vec z_2 = \mathcal{B}(\vec z_1)
+             = \left(\mathcal{B}\circ\mathcal{A}\right)(\vec z_0)\,.
+\end{equation}
+The rightmost point map acts first.  Matrices multiplying a column vector
+follow the same rule: $\vec z_2 = BA\vec z_0$.
+
+Substitution operators compose in the opposite order:
+\begin{equation}\label{eq:pullback-order}
+    \widehat{\mathcal{B}\circ\mathcal{A}}\,g
+    = g\circ\mathcal{B}\circ\mathcal{A}
+    = \widehat{\mathcal{A}}\,\widehat{\mathcal{B}}\,g\,.
+\end{equation}
+For the coordinate functions themselves this becomes
+\begin{equation}
+    \vec z_2 = \left(\widehat{\mathcal{A}}\,
+    \widehat{\mathcal{B}}\,\vec z\right)(\vec z_0)\,.
+\end{equation}
+The labels in the operator product therefore follow the physical beam-line
+order from left to right, even though, as operators acting on the object to
+their right, the rightmost operator is evaluated first.  This pullback
+reversal is the source of the apparently conflicting conventions.
+
+In the notation often associated with Dragt, products of Lie
+transformations such as
+\begin{equation}
+    \e^{\lie{f_A}}\e^{\lie{f_B}}\vec z\,.
+\end{equation}
+are coordinate-substitution operators, so $A$ is encountered before $B$ in
+the corresponding physical sequence.  If instead one writes maps with
+their phase-space arguments, the same sequence is
+\begin{equation}
+    \mathcal{M}_B\bigl(\mathcal{M}_A(\vec z)\bigr)
+    = \left(\mathcal{M}_B\circ\mathcal{M}_A\right)(\vec z)\,.
+\end{equation}
+There is no disagreement about composition: one expression acts on
+functions (including the coordinate functions), while the other acts on
+points.  Whenever an ordering is ambiguous, displaying either the argument
+or the composition symbol $\circ$ removes it.
