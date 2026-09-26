@@ -1,0 +1,166 @@
+\chapter{Conventions and Notation}
+\label{chap:conventions}
+
+The following chapters use several sign conventions and two distinct ways in
+which a map can act.  This short chapter fixes those choices once, so that later
+formulae can be read without silently changing conventions.  The choices are
+those used throughout this document and are compatible with the accelerator
+Lie-map framework of Refs.~\cite{DragtFinn1976,DragtForest1983,Forest_book1,Forest_book2}.
+
+\section{Vectors, matrices, and canonical coordinates}
+
+Scalars are written in ordinary italic mathematics.  Phase-space vectors are
+written in bold, for example $\vec z$, and matrices are denoted by capital
+letters.  The superscripts $T$ and $\dagger$ denote transpose and Hermitian
+conjugation, respectively; $\ii$ denotes the imaginary unit.  Calligraphic
+symbols such as $\mathcal M$ denote maps when this helps distinguish them
+from their Jacobian matrices.  The differential of a map at $\vec z$ is written
+$D\mathcal M_{\vec z}$; in a coordinate chart it is represented by the usual
+Jacobian matrix.  Repeated indices are summed only where this is stated or where
+the Einstein convention is explicitly being used; most sums in the accelerator
+calculations are written out.
+
+Canonical coordinates are ordered in conjugate pairs,
+\begin{equation}\label{eq:conv-coordinates}
+    \vec z = (q_1,p_1,\ldots,q_n,p_n)^T\,.
+\end{equation}
+With this ordering, define
+\begin{equation}\label{eq:conv-S}
+    S = \diag(S_2,\ldots,S_2)\,,
+    \qquad
+    S_2 = \begin{pmatrix}
+        0 & 1\\
+        -1 & 0
+    \end{pmatrix}\,.
+\end{equation}
+In canonical coordinates the symplectic form is therefore
+\begin{equation}\label{eq:conv-symplectic-form}
+    \omega = \sum_{j = 1}^n \dee q_j\wedge\dee p_j\,,
+    \qquad
+    \omega(\vec u,\vec v) = \vec u^T S\vec v\,.
+\end{equation}
+A linear map $\vec z\mapsto R\vec z$ is symplectic when
+$R^T S R = S$; for a nonlinear canonical map the same condition holds for its
+Jacobian at every phase-space point.
+
+\section{Poisson bracket, Hamiltonian flow, and Lie maps}
+
+The Poisson bracket is defined with the first argument differentiated with
+respect to $q_j$ in the first term,
+\begin{equation}\label{eq:conv-poisson}
+    \poissonfull{f}{g} = \sum_{j = 1}^n\left(
+        \partder{f}{q_j}\partder{g}{p_j}
+        - \partder{f}{p_j}\partder{g}{q_j}
+    \right)\,.
+\end{equation}
+Thus $\poisson{q_i}{p_j} = \delta_{ij}$.  The Hamiltonian vector field is
+defined by
+\begin{equation}\label{eq:conv-hamiltonian-vector-field}
+    \iota_{X_f}\omega = \dee f\,.
+\end{equation}
+With the symplectic-form convention above, the bracket can equivalently be
+written
+\begin{equation}\label{eq:conv-poisson-geometric}
+    \poisson{f}{g} = \omega(X_f,X_g) = X_g f = -X_f g\,.
+\end{equation}
+Thus
+\begin{equation}\label{eq:conv-hamilton-equations}
+    \dot q_j = \partder{H}{p_j}\,,
+    \qquad
+    \dot p_j = -\partder{H}{q_j}\,,
+    \qquad
+    \dot g = \poisson{g}{H}\,.
+\end{equation}
+The Lie operator places its generator in the \emph{first} Poisson-bracket
+slot,
+\begin{equation}\label{eq:conv-lie-operator}
+    \Lie{f}\,g \equiv \poisson{f}{g}\,.
+\end{equation}
+Consequently $X_f g = \poisson{g}{f} = -\Lie{f}g$.  An expression such as
+$\e^{\lie{f}}$ always means the exponential of the \emph{operator} $\Lie{f}$;
+it is not the scalar function $\e^f$.  With these definitions, the forward
+Hamiltonian point flow is
+\begin{equation}\label{eq:conv-forward-flow}
+    \Phi_H^t(\vec z) = \e^{-t\,\lie{H}}\vec z\,.
+\end{equation}
+This minus sign is intentional.  It follows from the ordering in
+Eq.~\eqref{eq:conv-lie-operator}, rather than from a different sign in
+Hamilton's equations.  In particular, when a Hamiltonian point map is denoted
+by $\mathcal E_H$, this document uses
+\begin{equation}\label{eq:conv-EH}
+    \mathcal E_H(\vec z) = \e^{-\lie{H}}\vec z\,.
+\end{equation}
+Accelerator Lie-map references often write the same finite transformation as
+$\e^{\lie{f}}$ with a \emph{map generator} $f$.  There is no sign conflict:
+for an autonomous physical Hamiltonian propagated for a parameter interval
+$L$, one simply has
+\begin{equation}\label{eq:conv-map-generator}
+    \e^{-L\,\lie{H}} = \e^{\lie{f}}\,,
+    \qquad f = -L H\,.
+\end{equation}
+Keeping the physical Hamiltonian $H$ and the Lie-map generator $f$ distinct
+is useful when comparing conventions across the literature.
+
+\section{Point maps and substitution operators}
+
+A point map $\mathcal A:M\to M$ acts on phase-space points.  Its associated
+substitution operator acts on functions by pullback,
+\begin{equation}\label{eq:conv-substitution}
+    \widehat{\mathcal A}\,g = g\circ\mathcal A\,.
+\end{equation}
+If a particle encounters $\mathcal A$ first and $\mathcal B$ second, then
+\begin{equation}\label{eq:conv-map-order}
+    \vec z_{\rm out} = (\mathcal B\circ\mathcal A)(\vec z_{\rm in})\,,
+    \qquad
+    \widehat{\mathcal B\circ\mathcal A} = \widehat{\mathcal A}\,\widehat{\mathcal B}\,.
+\end{equation}
+Thus point-map composition and substitution-operator multiplication appear in
+opposite orders.  Whenever the distinction matters, this document keeps the
+composition symbol or the map argument explicit.
+
+\section{Normal-form phase convention}
+
+For each linearly normalised degree of freedom, the action--angle variables are
+chosen as
+\begin{equation}\label{eq:conv-action-angle}
+    J_j = \frac{Q_j^2 + P_j^2}{2}\,,
+    \qquad
+    Q_j = \sqrt{2J_j}\cos\phi_j\,,
+    \qquad
+    P_j = -\sqrt{2J_j}\sin\phi_j\,.
+\end{equation}
+The corresponding complex phasor is
+\begin{equation}\label{eq:conv-phasor}
+    a_j = \frac{Q_j-\ii P_j}{\sqrt 2} = \sqrt{J_j}\,\e^{\ii\phi_j}\,.
+\end{equation}
+A positive phase advance $\mu_j$ therefore acts as
+\begin{equation}\label{eq:conv-phase-advance}
+    a_j \longmapsto \e^{\ii\mu_j}a_j\,,
+    \qquad
+    \phi_j \longmapsto \phi_j + \mu_j\,,
+    \qquad
+    \nu_j = \frac{\mu_j}{2\pi}\,.
+\end{equation}
+A one-turn eigenvalue determines $\mu_j$ modulo $2\pi$ and the tune modulo an
+integer.  Continuous phase or tune branches must therefore be chosen when
+parameters or observation locations are varied.
+
+\section{Series order and external parameters}
+
+A dot denotes differentiation with respect to the continuous flow parameter in
+context (physical time, longitudinal position, or an auxiliary Lie-flow parameter),
+whereas an integer subscript $n$ denotes the discrete turn number.
+
+The symbol $\mathcal O(\|\vec z\|^r)$ denotes terms of coordinate degree at
+least $r$ about the stated expansion point.  A homogeneous Hamiltonian of
+degree $r$ generates a first coordinate change of degree $r-1$, since one
+Poisson bracket differentiates the generator once.  Normal-form calculations
+are understood locally as formal power-series calculations, or as finite
+truncations of such series, unless convergence is stated explicitly.
+
+Quantities such as a magnet strength or a prescribed momentum offset may be
+carried as external Taylor parameters.  Unless a parameter is explicitly
+promoted to a canonical dynamical coordinate with its own conjugate momentum,
+it is held fixed by the Poisson bracket.  Complex phasors are a computational
+basis; on real physical phase space their conjugates satisfy
+$a_j^* = \overline{a_j}$.
