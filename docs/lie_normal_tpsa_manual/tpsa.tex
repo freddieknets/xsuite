@@ -1,0 +1,89 @@
+
+
+\chapter{Generalised TPSAs}
+
+
+
+\section{TPSAs}
+
+Taylor series in one dimension:
+\begin{equation}
+    f(x) = \sum\limits_{k = 0}^\infty \frac{1}{k!} \, f^{(k)}(a)\,(x-a)^k\,.
+\end{equation}
+Taylor series in $n$ dimensions:
+\begin{align*}
+    f(\vec a + \Delta\vec x) & = \sum\limits_{k = 0}^\infty \frac{1}{k!} \,
+    \partial_{i_1}\partial_{i_2}\cdots\partial_{i_k}\,f(\vec a)\,
+    \Delta x^{i_1}\Delta x^{i_2}\cdots \Delta x^{i_k}
+    \quad i_j = 1, \ldots, n\\
+    & = \sum\limits_{k = 0}^\infty \frac{1}{k!} \,
+    \left(\Delta x^i \partial_i\right)^{\!k} f(\vec a) \\
+    & = \sum\limits_{|\alpha|\geq 0} \frac{1}{\alpha!} \,
+    \Delta x^\alpha \partial^\alpha f(\vec a) \\
+    \alpha & = (\alpha_1, \alpha_2, \ldots, \alpha_n) \\
+    \alpha! & = \prod \alpha_j! \\
+    \Delta x^\alpha & = \Delta x_1^{\alpha_1}\Delta x_2^{\alpha_2}\cdots \Delta x_n^{\alpha_n}\,.
+\end{align*}
+
+Let
+\begin{equation}
+    \vec r = (x,p_x,y,p_y,\zeta,\delta)^T\,.
+\end{equation}
+A six-dimensional Taylor map is a vector-valued map
+\begin{equation}
+    \mathcal M(\vec r)
+    = (\mathcal M_1(\vec r),\ldots,\mathcal M_6(\vec r))^T\,,
+\end{equation}
+with each component represented by a TPSA.\footnote{The longitudinal canonical
+coordinates are often chosen differently.}  Thus a TPSA is a scalar truncated
+multivariate power series; a phase-space Taylor map is a vector of such TPSAs.
+
+This means that each component $K$ of the map is a polynomial of order $N$:
+\begin{equation}
+    \mathcal{M}^K = \sum_{i + j + k + l + m + n \leq N} c_{ijklmn}\;
+    x^i p_x^j y^k p_y^l \zeta^m \delta^n \,.
+\end{equation}
+Practically, any TPSA can be represented by a list of powers and associated coefficients for each monomial, like so:
+\begin{align}
+    -0.376\, xy^3 \quad\Rightarrow\quad &(1, 0, 3, 0, 0, 0):\; -0.376\,, \\
+    0.8x + 0.97p_x -0.0017\, x\delta \quad\Rightarrow\quad
+    &(1, 0, 0, 0, 0, 0):\; 0.8 \notag\\
+    &(0, 1, 0, 0, 0, 0):\; 0.97 \notag\\
+    &(1, 0, 0, 0, 0, 1):\; -0.0017\,,
+\end{align}
+etc. Any operation on a map is then just a matter of bookkeeping of its polynomial's powers and combining the relevant coefficients.
+
+For instance, a derivative acts on the powers as follows:
+\begin{align}\label{eq:derivatives}
+    \partial_{x}\left[ (i, j, k, l, m, n):\, c \right] & = (i-1, j, k, l, m, n):\, i c \\
+    \partial_{p_x}\left[ (i, j, k, l, m, n):\, c \right] & = (i, j-1, k, l, m, n):\, j c \notag\\
+    \partial_{y}\left[ (i, j, k, l, m, n):\, c \right] & = (i, j, k-1, l, m, n):\, k c \notag\\
+    \ldots\quad\;& \notag\\
+    \partial_x^3\partial_{p_x}\left[ (i, j, k, l, m, n):\, c \right] & = (i-3, j-1, k, l, m, n):\, i(i-1)(i-2) j c \quad \text{if }i\geq 3 \text{ else }0 \notag\\
+    \ldots\quad\;& \notag\,.
+\end{align}
+
+
+
+\section{Jacobian}
+The Jacobian matrix of a map is given by
+\begin{equation}
+    \mathcal{J}_{ij} = \partial_j \mathcal{M}_i \,,
+\end{equation}
+which is straightforward to calculate for TPSAs using Eq.~\ref{eq:derivatives}.
+
+The \emph{Jacobian determinant} is the determinant of the Jacobian matrix:
+\begin{equation}
+    \mathcal{J} = \left|\mathcal{J}_{ij}\right|\,.
+\end{equation}
+
+
+
+The Jacobian determinant alone is not a sufficient symplecticity test in more
+than one degree of freedom.  For canonical coordinates, a Taylor map is
+symplectic when its Jacobian matrix satisfies
+\begin{equation}
+    \mathcal J(\vec r)^T S\mathcal J(\vec r) = S\,,
+\end{equation}
+through the polynomial order available after differentiation.  In particular,
+$\det\mathcal J = 1$ is a necessary consequence, but not the full condition.
