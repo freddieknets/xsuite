@@ -9,6 +9,7 @@ also applies to nonlinear Hamiltonian maps, with the matrix commutator
 replaced by the Poisson bracket.
 
 
+
 \section{Lie Algebra}
 
 \subsection{Vector spaces and Lie algebras}
@@ -48,6 +49,7 @@ The bracket therefore measures non-commutativity.  If every bracket
 vanishes, the algebra is called abelian.  Notice that a Lie algebra has two
 quite different operations: vector addition and the bracket.  The bracket is
 not in general an associative multiplication.
+
 
 \subsection{Lie groups and representations}
 A \emph{Lie group} $G$ is both a group and a smooth manifold, with smooth
@@ -185,6 +187,7 @@ geometry to lay the necessary mathematical foundation. One can skip some of
 these parts and jump directly to the relevant part on the Lie algebra of
 Hamiltonian maps in Sec.~\ref{sec:hamiltonian-lie-algebra}.
 
+
 \subsection{Manifolds}
 A smooth $n$-dimensional \emph{manifold} $M$ is a space that looks locally
 like $\mathbb{R}^n$: every point has a neighbourhood that can be described
@@ -225,6 +228,7 @@ of a manifold. More fundamentally, every finite-dimensional real vector space
 is topologically equivalent to some $\mathbb{R}^n$ and can be continuously
 contracted to a point, whereas a loop around the cylinder cannot be contracted.
 Thus, being locally Euclidean does not make a manifold a vector space.
+
 
 \subsection{Tangent space}
 Although points of a general manifold cannot be added, the infinitesimal
@@ -297,6 +301,7 @@ the canonical momenta are the components of a covector on the
 \emph{configuration space} $Q$; they are still not tangent vectors of the
 phase space $M$.
 
+
 \subsection{Symplectic manifolds}
 Phase space carries yet another layer of structure.  At a point $p\in M$, an
 alternating covariant 2-tensor is an element
@@ -334,7 +339,7 @@ For the special case $M = \mathbb R^6$, there is a natural identification
 \begin{equation}
     T_z\mathbb R^6\simeq\mathbb R^6\,.
 \end{equation}
-at every $z$.  Therefore, we can write
+at every $z\in \mathbb R$.  Therefore, we can write
 \begin{equation}
     \omega:\mathbb R^6\times\mathbb R^6\to\mathbb R, \quad
     \omega(u,v) = u^T S v\,,
@@ -352,12 +357,13 @@ with
 \end{equation}
 We can hence think of $S$ as the coordinate representation of $\omega$.
 
+
 \subsection{Symplectic maps}
 A canonical, or symplectic, map $\mathcal{M}:M\to M$ is a diffeomorphism
 that preserves the symplectic form.  The easiest way to understand this is to
 follow two infinitesimal phase-space variations.  At $z\in M$, the
 differential (or \emph{pushforward})
-\begin{equation}
+\begin{equation}\label{eq:pushforward}
     D\mathcal{M}_z:T_zM\longrightarrow T_{\mathcal{M}(z)}M\,.
 \end{equation}
 propagates a tangent vector $u$ at the entrance into the tangent vector
@@ -394,26 +400,33 @@ for every $z$ and every $u,v\in T_zM$.  Nothing physically moves ``backwards''
 in a pullback: it is simply the bookkeeping operation that expresses a form
 from the output point in terms of input tangent vectors.
 
-In canonical coordinates on the $2n$-dimensional phase space, let
-$J(\vec z):\mathbb R^{2n}\to\mathbb R^{2n}$ be the Jacobian matrix
-representing $D\mathcal{M}_z$, with entries
-$J_{ij}(\vec z) = \partial \mathcal{M}_i/\partial z_j$.  Thus, if $\vec u$ is
-the coordinate vector representing $u\in T_zM$, then $J(\vec z)\vec u$
-represents $D\mathcal{M}_z u\in T_{\mathcal{M}(z)}M$.  Since the matrix of
-$\omega$ is the constant matrix $S$ in these coordinates, the preceding
-identity becomes, for arbitrary coordinate vectors $\vec u$ and $\vec v$,
+In canonical coordinates on the $2n$-dimensional phase space, the
+differential $D\mathcal M_{\vec z}$ is represented by the usual Jacobian
+matrix, with entries
 \begin{equation}
-    \bigl(J(\vec z)\vec u\bigr)^T S
-    \bigl(J(\vec z)\vec v\bigr) = \vec u^T S\vec v\,.
+    \bigl[D\mathcal M_{\vec z}\bigr]_{ij}
+    = \frac{\partial \mathcal M_i}{\partial z_j}\,.
+\end{equation}
+Thus, if $\vec u$ is the coordinate vector representing $u\in T_zM$, then
+$D\mathcal M_{\vec z}\,\vec u$ represents
+$D\mathcal M_z u\in T_{\mathcal M(z)}M$. Since the matrix of $\omega$ is
+the constant matrix $S$ in these coordinates, the preceding identity becomes,
+for arbitrary coordinate vectors $\vec u$ and $\vec v$,
+\begin{equation}
+    \bigl(D\mathcal M_{\vec z}\,\vec u\bigr)^T S
+    \bigl(D\mathcal M_{\vec z}\,\vec v\bigr)
+    = \vec u^T S\vec v\,.
 \end{equation}
 Equivalently,
 \begin{equation}
-    \vec u^T\bigl(J(\vec z)^T S J(\vec z)-S\bigr)\vec v = 0\,,
+    \vec u^T\left[
+        \bigl(D\mathcal M_{\vec z}\bigr)^T S D\mathcal M_{\vec z} - S
+    \right]\vec v = 0\,,
 \end{equation}
-for all $\vec u$ and $\vec v$.  The matrix in parentheses must therefore
+for all $\vec u$ and $\vec v$.  The matrix in brackets must therefore
 vanish, which gives the familiar Jacobian condition
 \begin{equation}\label{eq:symplectic-jacobian}
-    J(\vec z)^T S J(\vec z) = S\,.
+    \bigl(D\mathcal M_{\vec z}\bigr)^T S D\mathcal M_{\vec z} = S\,.
 \end{equation}
 Consequently, in canonical coordinates,
 Eq.~\eqref{eq:symplectic-jacobian} is equivalent to the geometric
@@ -538,6 +551,7 @@ Taylor and truncated-power-series representations, and the Leibniz rule
 controls the action of a generator on products of observables.  At the same
 time, working with a Hamiltonian generator rather than arbitrary Taylor
 coefficients keeps the underlying map canonical.
+
 
 
 \section{Exponentiation}

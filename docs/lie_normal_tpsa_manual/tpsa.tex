@@ -66,24 +66,24 @@ For instance, a derivative acts on the powers as follows:
 
 
 \section{Jacobian}
-The Jacobian matrix of a map is given by
+The Jacobian matrix of a map is its differential in coordinates,
 \begin{equation}
-    \mathcal{J}_{ij} = \partial_j \mathcal{M}_i \,,
+    \left[D\mathcal M(\vec r)\right]_{ij}
+    = \partial_j \mathcal M_i(\vec r)\,.
 \end{equation}
-which is straightforward to calculate for TPSAs using Eq.~\ref{eq:derivatives}.
+It is straightforward to calculate for TPSAs using Eq.~\ref{eq:derivatives}.
+We deliberately keep the notation $D\mathcal M$ rather than introducing a
+matrix $J$, since $J_j$ and $\vec J$ are reserved for normal-form actions.
 
-The \emph{Jacobian determinant} is the determinant of the Jacobian matrix:
+The \emph{Jacobian determinant} is
 \begin{equation}
-    \mathcal{J} = \left|\mathcal{J}_{ij}\right|\,.
+    \det D\mathcal M(\vec r)\,.
 \end{equation}
-
-
-
 The Jacobian determinant alone is not a sufficient symplecticity test in more
-than one degree of freedom.  For canonical coordinates, a Taylor map is
+than one degree of freedom. For canonical coordinates, a Taylor map is
 symplectic when its Jacobian matrix satisfies
 \begin{equation}
-    \mathcal J(\vec r)^T S\mathcal J(\vec r) = S\,,
+    \bigl[D\mathcal M(\vec r)\bigr]^T S D\mathcal M(\vec r) = S\,.
 \end{equation}
-through the polynomial order available after differentiation.  In particular,
-$\det\mathcal J = 1$ is a necessary consequence, but not the full condition.
+through the polynomial order available after differentiation. In particular,
+$\det D\mathcal M = 1$ is a necessary consequence, but not the full condition.

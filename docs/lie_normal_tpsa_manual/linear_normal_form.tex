@@ -18,10 +18,11 @@ normal-form dynamics. The map-based approach is developed systematically
 in Refs.~\cite{Forest_book1,Forest_book2}.
 
 
+
 \section{The closed orbit is the origin of the normal form}
 \label{sec:lnf-closed-orbit}
 
-Choose an observation point in the ring and let $\mathcal M$ denote its
+Choose an observation point $z$ in the ring and let $\mathcal M$ denote its
 one-turn point map. Use paired canonical coordinates
 \begin{equation}
     \vec z = (q_1,p_1,\ldots,q_d,p_d)^T,
@@ -37,26 +38,27 @@ It need not coincide with the zero coordinates of the tracking model.
 Alignment errors, corrector settings, dispersion, and nonlinear feed-down
 can all make that distinction essential.
 
-Define the deviation and the one-turn Jacobian by
+Define the deviation and the linear one-turn matrix (see
+Eq.~\eqref{eq:pushforward}) by
 \begin{equation}\label{eq:lnf-deviation}
     \vec\xi = \vec z-\vec z_{\rm co},
-    \qquad B = \left.D\mathcal M\right|_{\vec z_{\rm co}}\,.
+    \qquad M = \left.D\mathcal M\right|_{\vec z_{\rm co}}\,.
 \end{equation}
 Taylor expansion about the fixed point gives
 \begin{equation}\label{eq:lnf-linearisation}
-    \mathcal M(\vec z_{\rm co} + \vec\xi) = \vec z_{\rm co} + B\vec\xi + \mathcal O(\|\vec\xi\|^2),
+    \mathcal M(\vec z_{\rm co} + \vec\xi) = \vec z_{\rm co} + M\vec\xi + \mathcal O(\|\vec\xi\|^2),
     \qquad
-    \vec\xi_{n + 1} = B\vec\xi_n + \mathcal O(\|\vec\xi_n\|^2)\,.
+    \vec\xi_{n + 1} = M\vec\xi_n + \mathcal O(\|\vec\xi_n\|^2)\,.
 \end{equation}
 Thus the linear normal form acts on the tangent motion around the closed
 orbit, rather than on the absolute tracking coordinates. Even a lattice
 containing nonlinear magnets has such a linearisation; its matrix includes
 their derivatives evaluated on that orbit.
 
-For an exactly affine map $\mathcal M(\vec z) = \vec d + B\vec z$, the orbit
+For an exactly affine map $\mathcal M(\vec z) = \vec d + M\vec z$, the orbit
 satisfies
 \begin{equation}
-    (I-B)\vec z_{\rm co} = \vec d\,.
+    (I-M)\vec z_{\rm co} = \vec d\,.
 \end{equation}
 For a nonlinear map, the corresponding Newton step is
 \begin{equation}\label{eq:lnf-newton}
@@ -77,16 +79,16 @@ the linear dynamics is perfectly stable. Computing the Jacobian at the
 wrong origin can also give incorrect tunes and optics.
 
 
+
 \section{Symplectic matrices and the eigenvalue problem}
 \label{sec:lnf-eigenproblem}
 
-With the canonical ordering above, introduce
+With the canonical ordering above, we know from
+Eq.~\eqref{eq:symplectic-jacobian} that:
 \begin{equation}\label{eq:lnf-symplectic-matrix}
-    S = \diag(S_2,\ldots,S_2),
-    \qquad S_2 = \begin{pmatrix}0&1\\-1&0\end{pmatrix},
-    \qquad B^T S B = S\,.
+    M^T S M = S\,.
 \end{equation}
-The last identity follows by differentiating the symplectic one-turn map
+This follows by differentiating the symplectic one-turn map
 at its fixed point. It assumes Hamiltonian tracking without damping or
 other non-symplectic processes. It also assumes genuinely canonical
 coordinates. A longitudinal tracking variable called $\delta$ is not
@@ -96,9 +98,9 @@ using this $S$ in six dimensions.
 
 The normal-mode problem is
 \begin{equation}\label{eq:lnf-eigenvalue}
-    B\vec v_j = \lambda_j\vec v_j\,.
+    M\vec v_j = \lambda_j\vec v_j\,.
 \end{equation}
-Because $B$ is real and symplectic, eigenvalues occur with their complex
+Because $M$ is real and symplectic, eigenvalues occur with their complex
 conjugates and reciprocals. For stable elliptic motion they lie on the
 unit circle and can be written
 \begin{equation}
@@ -139,10 +141,10 @@ phase advance $\mu_j$ must be taken from the selected eigenvalue.
 It need not be the positive principal angle returned by a library.
 
 The symplectic orthogonality of different modes follows directly from
-the eigenproblem. If $B\vec v = \lambda\vec v$ and
-$B\vec r = \rho\vec r$, then
+the eigenproblem. If $M\vec v = \lambda\vec v$ and
+$M\vec r = \rho\vec r$, then
 \begin{equation}
-    \vec v^T S\vec r = \vec v^T B^T S B\vec r = \lambda\rho\,\vec v^T S\vec r\,.
+    \vec v^T S\vec r = \vec v^T M^T S M\vec r = \lambda\rho\,\vec v^T S\vec r\,.
 \end{equation}
 Consequently $\vec v^T S\vec r = 0$ when $\lambda\rho\ne1$.
 Together with Eq.~\eqref{eq:lnf-eigenvector-normalisation}, these relations
@@ -156,12 +158,12 @@ numerical implementations should check the residual.
 
 Taking real and imaginary parts of the eigenvalue equation gives
 \begin{align}
-    B\vec u_j& = \cos\mu_j\,\vec u_j-\sin\mu_j\,\vec t_j,\\
-    B\vec t_j& = \sin\mu_j\,\vec u_j + \cos\mu_j\,\vec t_j\,.
+    M\vec u_j& = \cos\mu_j\,\vec u_j-\sin\mu_j\,\vec t_j,\\
+    M\vec t_j& = \sin\mu_j\,\vec u_j + \cos\mu_j\,\vec t_j\,.
 \end{align}
 Collecting these columns produces the desired decomposition:
 \begin{equation}\label{eq:lnf-matrix-normal-form}
-    B = A R A^{-1},\qquad
+    M = A R A^{-1},\qquad
     R = \diag\bigl(R_2(\mu_1),\ldots,R_2(\mu_d)\bigr),
     \qquad
     R_2(\mu) = \begin{pmatrix}
@@ -172,6 +174,7 @@ The canonical inverse can also be written $A^{-1} = -S A^T S$.
 This is a matrix derivation of the normal form, and also an explanation
 of why it is an eigenvalue problem: eigenvalues provide the phase
 advances, while normalised eigenvectors provide the phase-space basis.
+
 
 
 \section{Normalisation and rotation do different jobs}
@@ -262,6 +265,7 @@ Such conventions affect individual normal-form coefficients, but not
 the physical map, actions, or eigenvalues.
 
 
+
 \section{Beta functions, phase advances, and tunes}
 \label{sec:lnf-beta-tune}
 
@@ -271,12 +275,14 @@ For an uncoupled pair $(x,p_x)$, choose the triangular Courant--Snyder
 normalisation
 \begin{equation}\label{eq:lnf-courant-snyder}
     A_{\rm CS} = \begin{pmatrix}
-    \sqrt{\beta}&0\\
-    -\alpha/\sqrt{\beta}&1/\sqrt{\beta}
+        \sqrt{\beta} & 0 \\
+        -\frac{\alpha}{\sqrt{\beta}} & \frac{1}{\sqrt{\beta}}
     \end{pmatrix},\qquad
-    \begin{pmatrix}Q\\P\end{pmatrix} = \begin{pmatrix}
-    (x-x_{\rm co})/\sqrt{\beta}\\
-    [\alpha(x-x_{\rm co}) + \beta(p_x-p_{x,\rm co})]/\sqrt{\beta}
+    \begin{pmatrix}
+        Q\\P
+    \end{pmatrix} = \begin{pmatrix}
+        \frac{x-x_{\rm co}}{\sqrt{\beta}} \\
+        \frac{\alpha(x-x_{\rm co}) + \beta(p_x-p_{x,\rm co})}{\sqrt{\beta}}
     \end{pmatrix}\,.
 \end{equation}
 Here $p_x$ is the canonical momentum used in the model; identifying it
@@ -284,16 +290,16 @@ with the geometric slope requires the corresponding paraxial convention.
 Set $\gamma = (1 + \alpha^2)/\beta$. Direct multiplication of
 $A_{\rm CS}R_2(\mu)A_{\rm CS}^{-1}$ gives
 \begin{equation}\label{eq:lnf-twiss-matrix}
-    B = \begin{pmatrix}
+    M = \begin{pmatrix}
     \cos\mu + \alpha\sin\mu&\beta\sin\mu\\
     -\gamma\sin\mu&\cos\mu-\alpha\sin\mu
     \end{pmatrix}\,.
 \end{equation}
 Thus, away from $\sin\mu = 0$,
 \begin{equation}
-    \cos\mu = \tfrac12\Tr B,\qquad
-    \beta = \frac{B_{12}}{\sin\mu},\qquad
-    \alpha = \frac{B_{11}-B_{22}}{2\sin\mu}\,.
+    \cos\mu = \tfrac12\Tr M,\qquad
+    \beta = \frac{M_{12}}{\sin\mu},\qquad
+    \alpha = \frac{M_{11}-M_{22}}{2\sin\mu}\,.
 \end{equation}
 The sign of $\sin\mu$ is chosen to give $\beta>0$.
 The invariant in physical deviations is
@@ -309,8 +315,9 @@ of the rotation:
 \end{equation}
 A one-turn eigenvalue fixes $\nu_j$ only modulo an integer. Recovering
 the accumulated tune requires following the phase through the ring or
-continuing it from a known lattice. Applying $\arccos(\Tr B/2)$ alone
+continuing it from a known lattice. Applying $\arccos(\Tr M/2)$ alone
 loses both the orientation and this phase branch.
+
 
 \subsection{Coupled modes and transport around the ring}
 
@@ -352,6 +359,7 @@ At one full turn, periodic $A(s)$ gives the phases $\mu_j$.
 Transporting the eigenvectors without removing their accumulating phases
 is also possible, but then that phase is contained in the columns of
 $A$ rather than displayed separately in the rotations.
+
 
 
 \section{Phasors and the resonance basis}
@@ -414,71 +422,73 @@ both the usefulness of the phasor basis and the need to retain resonant
 terms in the normal form.
 
 
-\section{An implementation with matrices}
-\label{sec:lnf-pseudocode}
 
-The following pseudocode assumes distinct elliptic modes and canonical
-coordinates. The routine \texttt{Jacobian} may use derivatives propagated
-through tracking, automatic differentiation, Taylor maps, or sufficiently
-accurate finite differences. The map and its Jacobian must use the same
-observation point, parameters, and coordinate convention.
+% \section{An implementation with matrices}
+% \label{sec:lnf-pseudocode}
 
-\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible]
-function linear_normal_form(M, initial_orbit, tolerances):
-    zco = initial_orbit
-    repeat until orbit_residual is small:
-        residual = M(zco) - zco
-        B = Jacobian(M, zco)
-        step = solve(I - B, residual)
-        zco = zco + step
-    assert norm(M(zco) - zco) < tolerances.orbit
+% The following pseudocode assumes distinct elliptic modes and canonical
+% coordinates. The routine \texttt{Jacobian} may use derivatives propagated
+% through tracking, automatic differentiation, Taylor maps, or sufficiently
+% accurate finite differences. The map and its Jacobian must use the same
+% observation point, parameters, and coordinate convention.
 
-    B = Jacobian(M, zco)       # Re-evaluate at converged orbit
-    S = block_diagonal([[0, 1], [-1, 0]], number_of_modes)
-    assert norm(transpose(B)*S*B - S) < tolerances.symplectic
+% \begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible]
+% function linear_normal_form(one_turn_map, initial_orbit, tolerances):
+%     zco = initial_orbit
+%     repeat until orbit_residual is small:
+%         residual = one_turn_map(zco) - zco
+%         M = Jacobian(one_turn_map, zco)
+%         step = solve(I - M, residual)
+%         zco = zco + step
+%     assert norm(one_turn_map(zco) - zco) < tolerances.orbit
 
-    eigenvalues, eigenvectors = eig(B)
-    pairs = pair_complex_conjugates(eigenvalues, eigenvectors)
-    assert stable_semisimple_elliptic_modes(pairs)
-    A = empty_real_matrix()
-    mu = empty_list()
-    for lambda, v in choose_one_member_of_each_pair(pairs):
-        sigma = real(conjugate_transpose(v)*S*v / (2*i))
-        if sigma < 0:
-            lambda, v = conjugate(lambda), conjugate(v)
-            sigma = -sigma
-        assert sigma > tolerances.mode_norm
-        v = v / sqrt(sigma)
-        v = choose_phase_gauge(v)  # Preserve its symplectic norm
-        append_columns(A, real(v), imag(v))
-        append(mu, argument(lambda))
+%     M = Jacobian(one_turn_map, zco)       # Re-evaluate at converged orbit
+%     S = block_diagonal([[0, 1], [-1, 0]], number_of_modes)
+%     assert norm(transpose(M)*S*M - S) < tolerances.symplectic
 
-    A, mu = label_modes_and_continue_phases(A, mu)
-    R = block_diagonal(rotation(mu[j]) for each mode j)
-    assert norm(transpose(A)*S*A - S) < tolerances.normalisation
-    assert norm(B*A - A*R) < tolerances.factorization
-    return zco, A, mu
+%     eigenvalues, eigenvectors = eig(M)
+%     pairs = pair_complex_conjugates(eigenvalues, eigenvectors)
+%     assert stable_semisimple_elliptic_modes(pairs)
+%     A = empty_real_matrix()
+%     mu = empty_list()
+%     for lambda, v in choose_one_member_of_each_pair(pairs):
+%         sigma = real(conjugate_transpose(v)*S*v / (2*i))
+%         if sigma < 0:
+%             lambda, v = conjugate(lambda), conjugate(v)
+%             sigma = -sigma
+%         assert sigma > tolerances.mode_norm
+%         v = v / sqrt(sigma)
+%         v = choose_phase_gauge(v)  # Preserve its symplectic norm
+%         append_columns(A, real(v), imag(v))
+%         append(mu, argument(lambda))
 
-function analyze_particle(z, zco, A):
-    w = solve(A, z - zco)     # Closed-orbit subtraction first
-    for each canonical pair Q, P in w:
-        J = (Q*Q + P*P)/2
-        phi = atan2(-P, Q)    # Defined only for nonzero action
-        report(J, phi)
+%     A, mu = label_modes_and_continue_phases(A, mu)
+%     R = block_diagonal(rotation(mu[j]) for each mode j)
+%     assert norm(transpose(A)*S*A - S) < tolerances.normalisation
+%     assert norm(M*A - A*R) < tolerances.factorization
+%     return zco, A, mu
 
-function propagate_linear(z, zco, A, mu, turns):
-    w = solve(A, z - zco)
-    w = block_diagonal(rotation(turns*mu[j]) for each mode j)*w
-    return zco + A*w
-\end{lstlisting}
+% function analyze_particle(z, zco, A):
+%     w = solve(A, z - zco)     # Closed-orbit subtraction first
+%     for each canonical pair Q, P in w:
+%         J = (Q*Q + P*P)/2
+%         phi = atan2(-P, Q)    # Defined only for nonzero action
+%         report(J, phi)
 
-The last two residual checks establish different facts: $A^TSA = S$
-checks that the new coordinates are canonical, and $BA = AR$ checks
-that they reduce the dynamics to rotations. A small eigenvalue
-residual alone establishes neither the chosen symplectic scale nor
-the correct mode orientation. For a nonlinear tracking map, the
-linear propagation agrees locally to first order, and the actions
-computed with $A$ need not remain exactly constant at finite amplitude.
+% function propagate_linear(z, zco, A, mu, turns):
+%     w = solve(A, z - zco)
+%     w = block_diagonal(rotation(turns*mu[j]) for each mode j)*w
+%     return zco + A*w
+% \end{lstlisting}
+
+% The last two residual checks establish different facts: $A^TSA = S$
+% checks that the new coordinates are canonical, and $BA = AR$ checks
+% that they reduce the dynamics to rotations. A small eigenvalue
+% residual alone establishes neither the chosen symplectic scale nor
+% the correct mode orientation. For a nonlinear tracking map, the
+% linear propagation agrees locally to first order, and the actions
+% computed with $A$ need not remain exactly constant at finite amplitude.
+
 
 
 \section{The same normal form written as maps}
@@ -511,7 +521,7 @@ For an affine symplectic $\mathcal M$, this is exactly $\mathcal R$ and
     \mathcal M = \mathcal C_0\circ\mathcal R\circ\mathcal C_0^{-1}\,.
 \end{equation}
 For a nonlinear map the same equation holds for its affine approximation
-$\mathcal M_{\rm lin}(\vec z) = \vec z_{\rm co} + B(\vec z-\vec z_{\rm co})$.
+$\mathcal M_{\rm lin}(\vec z) = \vec z_{\rm co} + M(\vec z-\vec z_{\rm co})$.
 Thus matrix similarity has become canonical conjugacy of point maps.
 The argument $\vec z_{\rm co} + A\vec w$ makes explicit both the orbit
 subtraction and the direction of the normalisation.
@@ -529,6 +539,7 @@ as in Eq.~\eqref{eq:pullback-order}. Consequently
 \end{equation}
 These are identities between operators acting on functions, whereas
 Eq.~\eqref{eq:lnf-map-factorization} is an identity between point maps.
+
 
 \subsection{Quadratic generators reproduce the matrices}
 
@@ -554,7 +565,7 @@ Eq.~\eqref{eq:lnf-phasor}.
 In physical deviations the corresponding quadratic Hamiltonian is
 \begin{equation}\label{eq:lnf-physical-h2}
     H_{2,\rm phys}(\vec\xi) = H_2(A^{-1}\vec\xi) = \frac12\vec\xi^T K\vec\xi,
-    \qquad K = A^{-T}DA^{-1},\qquad B = \exp(SK)\,.
+    \qquad K = A^{-T}DA^{-1},\qquad M = \exp(SK)\,.
 \end{equation}
 Indeed, symplecticity gives $S A^{-T} = A S$, hence
 $SK = A(SD)A^{-1}$ and the matrix exponentials reproduce
@@ -582,6 +593,7 @@ degree-two linear generators, and higher-degree nonlinear generators
 is exactly what makes the transition to nonlinear maps systematic.
 
 
+
 \section{What the linear normal form contains}
 \label{sec:lnf-scope}
 
@@ -598,9 +610,11 @@ What the linear normal form does not contain is the finite-amplitude effect
 of higher Taylor coefficients about that orbit.  Those coefficients deform
 the invariant curves or tori, generate amplitude detuning, and drive
 nonlinear resonances.  They are the subject of the next chapter.  This
-separation is particularly important for a pure on-axis octupole: its
+separation is for instance important for a pure on-axis octupole: its
 strength changes the nonlinear normal form while leaving the linearised map
 unchanged.
+
+
 
 \section{Normal forms depending on a parameter}
 \label{sec:lnf-parameters}
@@ -609,7 +623,7 @@ Let $\kappa$ be an externally prescribed lattice parameter, such as the
 integrated strength of one magnet at a fixed position. The problem is
 now a family $\mathcal M_\kappa$, with
 \begin{equation}\label{eq:lnf-parameter-family}
-    \vec z_{\rm co}(\kappa),\qquad B(\kappa),\qquad
+    \vec z_{\rm co}(\kappa),\qquad M(\kappa),\qquad
     A(\kappa),\qquad R(\vec\mu(\kappa))\,.
 \end{equation}
 Each member must be centred on its own orbit and normalised with its
@@ -621,23 +635,23 @@ phase-space variables at fixed $\kappa$.
 
 Differentiating the fixed-point equation gives
 \begin{equation}\label{eq:lnf-parameter-orbit}
-    (I-B)\frac{\dee\vec z_{\rm co}}{\dee\kappa} = \left.\frac{\partial\mathcal M_\kappa}{\partial\kappa}
+    (I-M)\frac{\dee\vec z_{\rm co}}{\dee\kappa} = \left.\frac{\partial\mathcal M_\kappa}{\partial\kappa}
     \right|_{\vec z_{\rm co}}\,.
 \end{equation}
-Provided $I-B$ is invertible, this determines the orbit response.
+Provided $I-M$ is invertible, this determines the orbit response.
 The matrix derivative includes the change of expansion point:
 \begin{equation}\label{eq:lnf-parameter-jacobian}
-    \frac{\dee B}{\dee\kappa} = \left.\partial_\kappa D\mathcal M_\kappa\right|_{\vec z_{\rm co}} + \left.D^2\mathcal M_\kappa\right|_{\vec z_{\rm co}}
+    \frac{\dee M}{\dee\kappa} = \left.\partial_\kappa D\mathcal M_\kappa\right|_{\vec z_{\rm co}} + \left.D^2\mathcal M_\kappa\right|_{\vec z_{\rm co}}
     \left[\frac{\dee\vec z_{\rm co}}{\dee\kappa},\slot\right]\,.
 \end{equation}
 The second term is easily missed: moving the orbit changes the
 feed-down from nonlinear fields, even at fixed magnet strengths.
 
 For a simple eigenvalue choose a left eigenvector $\vec\ell_j^\dagger$
-satisfying $\vec\ell_j^\dagger B = \lambda_j\vec\ell_j^\dagger$ and
+satisfying $\vec\ell_j^\dagger M = \lambda_j\vec\ell_j^\dagger$ and
 $\vec\ell_j^\dagger\vec v_j = 1$. Differentiation of the eigenproblem yields
 \begin{equation}\label{eq:lnf-parameter-tune}
-    \frac{\dee\lambda_j}{\dee\kappa} = \vec\ell_j^\dagger\frac{\dee B}{\dee\kappa}\vec v_j,
+    \frac{\dee\lambda_j}{\dee\kappa} = \vec\ell_j^\dagger\frac{\dee M}{\dee\kappa}\vec v_j,
     \qquad
     \frac{\dee\nu_j}{\dee\kappa} = \frac{1}{2\pi}\Imm\left(
     \lambda_j^{-1}\frac{\dee\lambda_j}{\dee\kappa}\right)\,.
@@ -662,6 +676,7 @@ The derivative $\partial\nu_j/\partial\delta_0$ is linear chromaticity.
 This is a family of transverse fixed-momentum problems; it is not
 a replacement for the full longitudinal dynamics when RF makes
 the momentum oscillate.
+
 
 
 \section{Example: an octupole strength at a fixed location}
@@ -698,7 +713,7 @@ one-turn matrix, the zero-amplitude tunes, or the linear beta
 functions. Its strength is still a useful parameter: it changes
 the cubic terms of the point map, which generate nonlinear
 deformation, resonances, and amplitude detuning in the next chapter.
-Higher-order terms cannot be inferred from $B$ alone.
+Higher-order terms cannot be inferred from $M$ alone.
 
 At an offset orbit $x_c,y_c$ in the magnet, linear feed-down is
 nonzero. The position Hessian of the Hamiltonian is

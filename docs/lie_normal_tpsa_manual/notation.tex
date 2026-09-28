@@ -7,6 +7,8 @@ formulae can be read without silently changing conventions.  The choices are
 those used throughout this document and are compatible with the accelerator
 Lie-map framework of Refs.~\cite{DragtFinn1976,DragtForest1983,Forest_book1,Forest_book2}.
 
+
+
 \section{Vectors, matrices, and canonical coordinates}
 
 Scalars are written in ordinary italic mathematics.  Phase-space vectors are
@@ -14,11 +16,19 @@ written in bold, for example $\vec z$, and matrices are denoted by capital
 letters.  The superscripts $T$ and $\dagger$ denote transpose and Hermitian
 conjugation, respectively; $\ii$ denotes the imaginary unit.  Calligraphic
 symbols such as $\mathcal M$ denote maps when this helps distinguish them
-from their Jacobian matrices.  The differential of a map at $\vec z$ is written
+from their linear representatives.  The differential of a map at $\vec z$ is written
 $D\mathcal M_{\vec z}$; in a coordinate chart it is represented by the usual
-Jacobian matrix.  Repeated indices are summed only where this is stated or where
-the Einstein convention is explicitly being used; most sums in the accelerator
-calculations are written out.
+Jacobian matrix.  We do not introduce a separate symbol such as $J$ for that
+matrix, because $J_j$ and $\vec J$ are reserved for the normal-form actions.
+For the one-turn map, the particular Jacobian evaluated at the closed orbit is
+instead given the physically meaningful name
+\begin{equation}\label{eq:conv-one-turn-matrix}
+    M \equiv \left.D\mathcal M\right|_{\vec z_{\rm co}}\,.
+\end{equation}
+Thus $\mathcal M$ denotes the full one-turn point map, whereas $M$ denotes its
+linearisation about the closed orbit.  Repeated indices are summed only where
+this is stated or where the Einstein convention is explicitly being used; most
+sums in the accelerator calculations are written out.
 
 Canonical coordinates are ordered in conjugate pairs,
 \begin{equation}\label{eq:conv-coordinates}
@@ -42,6 +52,8 @@ In canonical coordinates the symplectic form is therefore
 A linear map $\vec z\mapsto R\vec z$ is symplectic when
 $R^T S R = S$; for a nonlinear canonical map the same condition holds for its
 Jacobian at every phase-space point.
+
+
 
 \section{Poisson bracket, Hamiltonian flow, and Lie maps}
 
@@ -101,6 +113,8 @@ $L$, one simply has
 Keeping the physical Hamiltonian $H$ and the Lie-map generator $f$ distinct
 is useful when comparing conventions across the literature.
 
+
+
 \section{Point maps and substitution operators}
 
 A point map $\mathcal A:M\to M$ acts on phase-space points.  Its associated
@@ -117,6 +131,8 @@ If a particle encounters $\mathcal A$ first and $\mathcal B$ second, then
 Thus point-map composition and substitution-operator multiplication appear in
 opposite orders.  Whenever the distinction matters, this document keeps the
 composition symbol or the map argument explicit.
+
+
 
 \section{Normal-form phase convention}
 
@@ -144,6 +160,8 @@ A positive phase advance $\mu_j$ therefore acts as
 A one-turn eigenvalue determines $\mu_j$ modulo $2\pi$ and the tune modulo an
 integer.  Continuous phase or tune branches must therefore be chosen when
 parameters or observation locations are varied.
+
+
 
 \section{Series order and external parameters}
 

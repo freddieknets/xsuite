@@ -18,6 +18,7 @@ map-based viewpoint is also the basis of the generalised Courant--Snyder
 theory described in Ref.~\cite{Forest_book2}.
 
 
+
 \section{The next step after linear normalisation}
 
 \subsection{Centre and normalise before expanding}
@@ -48,11 +49,9 @@ We seek a canonical near-identity map
     \vec w = \mathcal B(\vec u),\qquad
     \mathcal B(0) = 0,\qquad D\mathcal B(0) = I\,,
 \end{equation}
-Here $\mathcal B$ is a nonlinear normalising map; it should not be
-confused with the symbol $B$ used in the preceding chapter for the linear
-one-turn Jacobian.  The matrix $A$ has already removed the linear optical
-geometry, while $\mathcal B$ removes nonresonant nonlinear harmonics order
-by order.
+Here $\mathcal B$ is a nonlinear normalising map.  The matrix $A$ has
+already removed the linear optical geometry, while $\mathcal B$ removes
+nonresonant nonlinear harmonics order by order.
 
 We require
 \begin{equation}\label{eq:nnf-conjugacy}
@@ -88,6 +87,7 @@ The map $\mathcal N$ describes the dynamics in normal coordinates.
 Both paths give the same physical point to the retained order.}
 \label{fig:nnf-conjugacy}
 \end{figure}
+
 
 \subsection{Factor the residual map into Lie maps}
 
@@ -139,6 +139,7 @@ Consequently, sextupoles also contribute to quartic detuning and resonance
 terms at second order in their strengths.
 
 
+
 \section{Solving the Normal-Form Problem Order by Order}
 
 \subsection{The resonance basis diagonalises the homological operator}
@@ -172,6 +173,7 @@ $1-\e^{\ii\vec k\cdot\vec\mu}$.  They vanish at
 \end{equation}
 This is a resonance of a \emph{discrete one-turn map}; an integer multiple
 of $2\pi$ is as resonant as zero phase advance.
+
 
 \subsection{Derivation of the homological equation}
 
@@ -224,6 +226,7 @@ normalisation is a composition of near-identity canonical maps, rather
 than a simple sum of the $G_r$.  The Baker--Campbell--Hausdorff brackets
 generated during these steps are needed for the higher-order coefficients.
 
+
 \subsection{What is removed, and what remains}
 
 When $\vec p = \vec q$, the monomial is $\prod_jJ_j^{p_j}$ and its
@@ -254,6 +257,7 @@ large.  Such a term should be retained in a resonant normal form.  The
 decision depends on its strength and the amplitudes of interest, as well
 as the distance to the resonance; a denominator threshold alone is a
 numerical policy, not a universal physical criterion.
+
 
 
 \section{Geometry of Tori and Dynamics on Tori}
@@ -305,6 +309,7 @@ $H_{\mathrm{NF}}$ specifies how its phases advance.  A term in the embedding
 can substantially distort an orbit without directly changing its tune at
 the same perturbative order.
 
+
 \subsection{Resonant dynamics}
 
 With resonant terms retained, write instead
@@ -331,7 +336,10 @@ Baker--Campbell--Hausdorff corrections is not justified.
 Thus the interpretation in terms of deformed constant-action tori applies
 to the nonresonant, action-only approximation.  A resonant normal form
 still separates coordinates from dynamics, but its dynamics is richer
-than rotation on those tori.
+than rotation on those tori.  Section~\ref{sec:nnf-rdts} returns to the
+complex coefficients commonly used in accelerator physics to quantify these
+resonance harmonics.
+
 
 
 \section{Amplitude Detuning}
@@ -360,6 +368,7 @@ alone if lower-degree nonlinearities are present: normalising the cubic
 terms also generates quartic contributions.  Similarly, the physical
 oscillation amplitude is found through $\mathcal C$, so it should not be
 identified with $\sqrt{2J_j}$ in physical units.
+
 
 
 \section{Beta Functions Depending on Amplitude}
@@ -401,6 +410,7 @@ from $H_{\mathrm{NF}}$.  These are different quantities.  In particular,
 the linear relation between beta and local phase advance does not become
 a general nonlinear identity by substituting an amplitude-dependent beta.
 
+
 \subsection{Mean displacements, higher harmonics, and transport}
 
 The coefficient $X_0$ can be nonzero: the mean position of a finite-action
@@ -424,6 +434,178 @@ coordinates.  Extracting Fourier coefficients from this transported map
 gives amplitude-dependent optics along the lattice.  Fitting a single
 ellipse to a strongly distorted projection does not in general reproduce
 these harmonic beta functions.
+
+
+
+\section{Resonance Driving Terms}\label{sec:nnf-rdts}
+
+The resonance discussion above tells us \emph{which} angular harmonics are
+associated with a resonance.  In accelerator physics one usually also wants a
+complex number that quantifies how strongly a particular harmonic is excited
+and with which phase.  These coefficients are called \emph{resonance driving
+terms} (RDTs).  They are widely used to diagnose nonlinear lattices, compare
+magnet configurations, and connect normal-form calculations with spectral
+lines measured from turn-by-turn data~\cite{PhysRevSTAB.17.074001}.
+
+There is a small terminology warning.  The name ``resonance driving term'' is
+not completely uniform in the literature.  Some authors use it for a
+coefficient of the Hamiltonian itself, while others use it for the coefficient
+of the generator of the normalising transformation.  In this chapter we use
+\emph{RDT} for the latter, because it follows directly from the normal-form
+transformation $\mathcal B$.  Coefficients that remain in the resonant
+Hamiltonian $Z$ will instead be called \emph{resonant Hamiltonian
+coefficients}.  Keeping this distinction explicit avoids a common source of
+factor and sign confusion.
+
+
+\subsection{RDTs from the normalising transformation}
+
+The order-by-order construction above writes $\mathcal B$ as a product of
+near-identity Lie maps.  Through any fixed truncation order, these maps may be
+combined with the Baker--Campbell--Hausdorff series into a single formal
+near-identity map
+\begin{equation}\label{eq:nnf-rdt-generator}
+    \mathcal B = \mathcal E_F = \e^{-:F:},
+    \qquad
+    F = \sum_{\vec p,\vec q} f_{\vec p\vec q}
+    m_{\vec p\vec q}\,.
+\end{equation}
+The complex coefficients $f_{\vec p\vec q}$ are the RDTs in the convention
+used here.  At the first order at which a monomial appears, $F$ and the
+corresponding order-by-order generator $G_r$ coincide.  Equation
+\eqref{eq:nnf-homological-solution} therefore gives immediately, for a term
+that is removed from the normal-form dynamics,
+\begin{equation}\label{eq:nnf-rdt-from-k}
+    f_{\vec p\vec q}^{(r)}
+    = G_{\vec p\vec q}
+    = -\frac{K_{\vec p\vec q}}
+    {1-\e^{\ii\vec k\cdot\vec\mu}},
+    \qquad
+    \vec k = \vec p-\vec q\,.
+\end{equation}
+At higher perturbative orders, $F$ also contains the BCH combinations of the
+lower-order normalising generators, so the full RDT is not in general just a
+raw coefficient of one magnet or of one Taylor-map order.
+
+For two transverse degrees of freedom it is customary to write
+\begin{equation}\label{eq:nnf-rdt-jklm}
+    F = \sum_{jklm} f_{jklm}
+    a_x^j(a_x^*)^k a_y^l(a_y^*)^m\,.
+\end{equation}
+The harmonic vector of this monomial is
+\begin{equation}
+    \vec k = (j-k,\,l-m)\,,
+\end{equation}
+so the associated resonance condition is
+\begin{equation}\label{eq:nnf-rdt-resonance}
+    (j-k)\nu_x + (l-m)\nu_y = N,
+    \qquad N\in\mathbb Z\,.
+\end{equation}
+For example, $f_{3000}$ is associated with $3\nu_x=N$, while $f_{2010}$ is
+associated with $2\nu_x+\nu_y=N$.  The polynomial degree
+$j+k+l+m$ and the resonance order $|j-k|+|l-m|$ are related but are not the
+same quantity.  Higher-degree monomials can carry the same harmonic vector and
+therefore contribute to the same resonance with an amplitude-dependent
+strength.
+
+Equation~\eqref{eq:nnf-rdt-from-k} also shows why an RDT becomes large close
+to its resonance.  Since
+\begin{equation}
+    1-\e^{\ii\theta}
+    = -2\ii\e^{\ii\theta/2}\sin\!\left(\frac{\theta}{2}\right)\,,
+\end{equation}
+the normalising transformation contains a small denominator when
+$\vec k\cdot\vec\mu$ approaches an integer multiple of $2\pi$.  The RDT
+therefore measures not only the strength of the corresponding harmonic in the
+one-turn perturbation, but also how strongly repeated turns coherently build
+up that harmonic at the chosen tunes.
+
+
+\subsection{Physical meaning of the complex coefficient}
+
+The modulus and phase of an RDT have complementary meanings.  Roughly
+speaking, $|f_{\vec p\vec q}|$ measures the size of the corresponding
+nonlinear distortion, while its complex phase fixes the phase of that
+harmonic relative to the chosen observation point and phase convention.  For
+a distributed lattice, the numerator $K_{\vec p\vec q}$ is, to first order in
+the nonlinear strengths, a coherent sum of contributions from the nonlinear
+elements.  Schematically,
+\begin{equation}\label{eq:nnf-rdt-phasor-sum}
+    K_{\vec p\vec q}(s_0)
+    \sim \sum_m c_{\vec p\vec q,m}
+    \e^{\ii\vec k\cdot\Delta\vec\phi(s_m,s_0)}\,.
+\end{equation}
+The coefficients $c_{\vec p\vec q,m}$ contain the local multipole strength and
+optical factors.  The exact prefactors depend on the multipole and coordinate
+conventions.  Equation~\eqref{eq:nnf-rdt-phasor-sum} is nevertheless the
+important physical point: contributions from different magnets add as
+phasors, so they can reinforce or cancel according to their phase advances.
+This is why the location of nonlinear correctors matters even when their
+integrated strengths are identical.
+
+The same coefficients appear directly in the shape of the motion.  From
+Eq.~\eqref{eq:nnf-rdt-generator}, a normal-form phasor $a_j$ is mapped back to
+the linearly normalised physical coordinates as
+\begin{equation}\label{eq:nnf-rdt-spectral-lines}
+    a_j^{\mathrm{lin}}
+    = \e^{-:F:}a_j^{\mathrm{NF}}
+    = a_j^{\mathrm{NF}}
+    + \ii\frac{\partial F}{\partial a_j^*}
+    + \mathcal O(F^2)\,.
+\end{equation}
+Each monomial of $F$ therefore produces a definite angular harmonic in the
+turn-by-turn motion.  This is the basis for extracting RDT information from
+the complex Fourier spectrum of BPM data.  It also makes clear that RDTs
+belong primarily to the nonlinear \emph{coordinate transformation}: they
+describe how simple normal-form motion is deformed when expressed in the
+linearly normalised or physical coordinates.
+
+Several monomials can correspond to the same resonance vector $\vec k$.  At a
+specified action, their combined effect is better represented by grouping them
+as
+\begin{equation}\label{eq:nnf-rdt-action-dependent}
+    F(\vec J,\vec\phi)
+    = \sum_{\vec k}F_{\vec k}(\vec J)
+    \e^{\ii\vec k\cdot\vec\phi},
+    \qquad
+    F_{\vec k}(\vec J)
+    = \sum_{\vec p-\vec q=\vec k}
+    f_{\vec p\vec q}
+    \prod_j J_j^{(p_j+q_j)/2}\,.
+\end{equation}
+Thus a single low-order RDT is a useful diagnostic, but it is not by itself a
+complete finite-amplitude measure of a resonance when higher-order terms are
+important.
+
+
+\subsection{What happens on the resonance}
+
+Equation~\eqref{eq:nnf-rdt-from-k} must not be interpreted literally at an
+exact resonance.  When
+$\vec k\cdot\vec\mu = 2\pi N$, the denominator vanishes because the
+corresponding harmonic cannot be removed by a near-identity transformation.
+The divergence is a failure of the \emph{nonresonant coordinate change}, not
+an infinite physical force.
+
+In that situation the harmonic is retained in the resonant normal form,
+\begin{equation}
+    Z(\vec J,\vec\phi)
+    \supset V_{\vec k}(\vec J)
+    \e^{\ii\vec k\cdot\vec\phi} + \text{c.c.}\,,
+\end{equation}
+and the finite coefficient $V_{\vec k}$ is the quantity that directly enters
+the resonant Hamiltonian dynamics.  Together with the distance from resonance
+and the action-dependent detuning, it determines features such as island
+widths, fixed points, separatrices, and action exchange.  Close to a
+resonance, therefore, a large nonresonant RDT is best understood as a warning
+that the corresponding harmonic should be promoted from the coordinate
+transformation into a resonant normal form.
+
+This distinction is useful in practice: away from resonance, RDTs provide a
+compact description of nonlinear distortion and measurable spectral lines;
+near or on resonance, the retained resonant Hamiltonian gives the more direct
+description of the dynamics.
+
 
 
 \section{Momentum Dependence and Nonlinear Chromaticity}
@@ -460,6 +642,7 @@ Consequently,
 The Fourier beta functions also depend on $\delta_0$, through
 $\mathcal C_s(\vec J,\vec\phi;\delta_0)$.
 
+
 \subsection{Chromatic derivatives and mixed terms}
 
 Define the chromaticity of order $r$ by derivatives, so the factorial
@@ -494,6 +677,7 @@ longitudinal coordinates must also be a canonical pair in the adopted
 tracking convention.
 
 
+
 \section{A Magnet Strength as an External Parameter}
 
 \subsection{Parameter-dependent coordinates and frequencies}
@@ -526,6 +710,7 @@ along the parameter family.  If a selected denominator crosses a
 resonance, a nonresonant normalisation cannot be differentiated smoothly
 through that crossing; retain the relevant harmonic or use a different
 local expansion.
+
 
 \subsection{Example: an octupole at a specified location}
 
@@ -634,6 +819,7 @@ must be normalised rather than using these isolated-octupole formulae
 unchanged.
 
 
+
 \section{Example Implementation in Pseudocode}
 
 The algorithm below assumes access to Taylor maps, composition, inversion,
@@ -738,6 +924,7 @@ if only_action_terms_are_retained:
 return C, N, Z, observables_if_nonresonant
 \end{lstlisting}
 \end{minipage}
+
 
 
 \section{Validity and Practical Checks}
