@@ -1,57 +1,112 @@
 \chapter{Non-Linear Normal Form}\label{chap:nonlinear-normal-form}
 
-The linear normal form separates the geometry of an oscillation from its
-phase advance: the matrix $A$ maps circles into phase-space ellipses, while
-$R$ rotates the normalised coordinates.  The nonlinear construction makes
-the same separation using canonical maps.  A nonlinear change of coordinates
-describes the deformation of the invariant tori, and the transformed
-one-turn map describes the dynamics on them.  Away from resonances, this
-dynamics is an action-dependent rotation.  Near a resonance, some
-angle-dependent terms must remain and can exchange action between modes.
+The purpose of a nonlinear normal form is simple to state: rewrite a
+complicated one-turn map in coordinates in which the important dynamics is
+as simple as possible.  The coordinate transformation then tells us how the
+motion is deformed in physical phase space, while the simplified map tells us
+how the phases and actions evolve from turn to turn.
 
-This chapter develops the construction locally about an elliptic closed
-orbit.  Nonlinear maps and their inverses are understood as formal Taylor
-series, or as series truncated at a stated order.  An action-only normal
-form at finite order is an approximation to the original map; it does not
-assert that an arbitrary nonlinear lattice is globally integrable.  The
-map-based viewpoint is also the basis of the generalised Courant--Snyder
-theory described in Ref.~\cite{Forest_book2}.
+Only one result from linear normal-form theory is needed as a starting point.
+Around a stable closed orbit, one can choose canonical linear coordinates in
+which the small-amplitude one-turn motion is a set of independent rotations.
+Readers who have not read Chap.~\ref{chap:linear-normal-form} may simply take
+this statement as given.  The nonlinear normal form adds a further,
+near-identity nonlinear change of coordinates.  Away from resonances, this
+can reduce the one-turn dynamics to rotations whose phase advances depend on
+the oscillation amplitudes.  Near a resonance, some angle-dependent terms
+cannot be removed and remain explicitly in the simplified dynamics.
+
+The central separation is therefore
+\begin{equation}\label{eq:nnf-basic-picture}
+    \boxed{\text{physical coordinates}}
+    \xleftrightarrow{\quad\mathcal C\quad}
+    \boxed{\text{normal coordinates}}
+    \qquad\text{with}\qquad
+    \mathcal M\circ\mathcal C = \mathcal C\circ\mathcal N\,.
+\end{equation}
+Here $\mathcal M$ is the physical one-turn map, $\mathcal C$ is the coordinate
+transformation, and $\mathcal N$ is the simplified normal-form dynamics.  The
+equation says that both descriptions represent the same turn-by-turn motion.
+
+This chapter develops the construction locally around a stable
+small-amplitude closed orbit.  All nonlinear maps are treated as Taylor
+series about that orbit, truncated at a chosen order when used in a practical
+calculation.  A finite-order normal form is therefore a local approximation;
+it does not claim that an arbitrary nonlinear lattice is globally integrable.
+The map-based viewpoint is also the basis of the generalised
+Courant--Snyder theory described in Ref.~\cite{Forest_book2}.
+
+For a first reading focused on the physics, the detailed derivation of the
+order-by-order equation in Sec.~\ref{sec:nnf-order-by-order} can be skipped.
+The main conclusions are collected in Secs.~\ref{sec:nnf-what-remains}--
+\ref{sec:nnf-detuning}: nonresonant terms mainly reshape the coordinates,
+action-dependent terms change the tunes, and resonant terms produce genuinely
+angle-dependent dynamics.
 
 
 
-\section{The next step after linear normalisation}
+\section{From linear optics to a nonlinear normal form}
 
-\subsection{Centre and normalise before expanding}
+\subsection{The linear starting point}
 
 Let $\mathcal M$ be the one-turn point map at a fixed observation location,
-and let $\vec z_{\mathrm{co}}$ be its closed orbit.  Use the definitions
+and let $\vec z_{\mathrm{co}}$ be its closed orbit,
+\begin{equation}
+    \mathcal M(\vec z_{\mathrm{co}}) = \vec z_{\mathrm{co}}\,.
+\end{equation}
+The linearisation of the one-turn map at that orbit is
+\begin{equation}
+    M = \left.D\mathcal M\right|_{\vec z_{\mathrm{co}}}\,.
+\end{equation}
+For stable oscillatory motion, the linear normal form chooses a symplectic
+matrix $A$ such that
+\begin{equation}
+    M = ARA^{-1}\,,
+\end{equation}
+where $R$ is block diagonal and each block is a two-dimensional rotation.
+Equivalently, the linearly normalised coordinates
+\begin{equation}
+    \vec w = A^{-1}(\vec z - \vec z_{\mathrm{co}})
+\end{equation}
+move on circles to first order.  The matrix $A$ contains the ordinary linear
+optics---beta functions, coupling, and the orientation and scale of the mode
+ellipses---whereas $R$ contains the phase advances.
+
+It is useful to write the same change of coordinates as maps,
 \begin{equation}
     \mathcal T_{\mathrm{co}}(\vec\xi) = \vec z_{\mathrm{co}} + \vec\xi,
     \qquad \mathcal L_A(\vec w) = A\vec w\,,
 \end{equation}
-where $A$ is the symplectic linear normalising matrix of the previous
-chapter.  The map in linearly normalised coordinates is
+so that the full one-turn map in these linearly normalised coordinates is
 \begin{equation}\label{eq:nnf-linear-normalisation}
     \mathcal F = \mathcal L_A^{-1}\circ\mathcal T_{\mathrm{co}}^{-1}
     \circ\mathcal M\circ\mathcal T_{\mathrm{co}}\circ\mathcal L_A,
     \qquad
     \mathcal F(\vec w) = R\vec w + \mathcal O(\|\vec w\|^2)\,.
 \end{equation}
-Thus $\mathcal F(0) = 0$ and $D\mathcal F(0) = R$.  In particular, the
-nonlinear terms describe deviations from the \emph{actual closed orbit},
-not deviations from the design trajectory.  Expanding about the wrong
-origin leaves a constant term and gives the wrong linear optics through
-feed-down.  Recentring is equally necessary for every momentum offset or
-magnet setting considered below.
+Thus $\mathcal F(0) = 0$ and $D\mathcal F(0) = R$.  In plain language, we have
+first moved the origin to the actual closed orbit and then divided out the
+ordinary linear optical distortion.  What remains beyond $R\vec w$ is the
+nonlinear part that we want to organise.  Expanding about the wrong orbit
+would leave a spurious constant term and would also change the apparent
+linear optics through feed-down.  Recentring is therefore necessary for every
+momentum offset or magnet setting considered below.
+
+
+\subsection{Add a small nonlinear change of coordinates}
 
 We seek a canonical near-identity map
 \begin{equation}
     \vec w = \mathcal B(\vec u),\qquad
-    \mathcal B(0) = 0,\qquad D\mathcal B(0) = I\,,
+    \mathcal B(0) = 0,\qquad D\mathcal B(0) = I,
+    \qquad
+    \mathcal B(\vec u) = \vec u + \mathcal O(\|\vec u\|^2)\,.
 \end{equation}
-Here $\mathcal B$ is a nonlinear normalising map.  The matrix $A$ has
-already removed the linear optical geometry, while $\mathcal B$ removes
-nonresonant nonlinear harmonics order by order.
+``Near identity'' simply means that the transformation leaves the origin and
+the linear optics unchanged; it only starts correcting the quadratic and
+higher-order dependence on the coordinates.  The matrix $A$ has already
+removed the linear optical geometry, while $\mathcal B$ removes as much of the
+remaining nonlinear distortion as possible, order by order.
 
 We require
 \begin{equation}\label{eq:nnf-conjugacy}
@@ -64,9 +119,14 @@ coordinates is therefore
     \qquad \vec z = \mathcal C(\vec u),\qquad
     \mathcal M\circ\mathcal C = \mathcal C\circ\mathcal N\,.
 \end{equation}
-The last equation is the conjugacy equation.  Tracking a normal-coordinate
-point and then transforming it gives the same result as transforming first
-and tracking in physical coordinates, to the retained order.
+The last relation is traditionally called a \emph{conjugacy equation}.  The
+name is less important than its physical meaning: start from a point in normal
+coordinates, either advance it with the simple map $\mathcal N$ and then
+transform it to physical coordinates, or first transform it and track it with
+the real map $\mathcal M$.  To the retained order, the two routes give the
+same physical point.  We shall also call $\mathcal C$ the \emph{embedding} of
+the normal coordinates in physical phase space; it is simply the complete
+coordinate transformation back to the variables used for tracking.
 
 \begin{figure}[htbp]
 \centering
@@ -89,7 +149,7 @@ Both paths give the same physical point to the retained order.}
 \end{figure}
 
 
-\subsection{Factor the residual map into Lie maps}
+\subsection{Describe the remaining nonlinear part with Lie maps}
 
 For clarity, define the Hamiltonian point map
 \begin{equation}\label{eq:nnf-hamiltonian-point-map}
@@ -101,19 +161,25 @@ follows from the convention $\Lie{H}g = \poisson{H}{g}$ in
 Eq.~\eqref{eq:lie-flow-relation}; it is essential when extracting tune
 shifts from a Hamiltonian.
 
-Removing the linear rotation gives
+Removing the known linear rotation leaves
 $\mathcal R^{-1}\circ\mathcal F = \operatorname{id} + \mathcal O(\|\vec w\|^2)$,
-where $\mathcal R(\vec w) = R\vec w$.  In the local canonical neighbourhood
-used here, the formal logarithm of this near-identity symplectic map is a
-Hamiltonian vector field (with its Hamiltonian defined up to an irrelevant
-constant).  This is the local setting of the Dragt--Finn Lie factorisation of analytic
-symplectic maps~\cite{DragtFinn1976}.  We may therefore write, order by order,
+where $\mathcal R(\vec w) = R\vec w$.  This is the part of the one-turn map
+that contains only nonlinear corrections.  Because the map is symplectic and
+close to the identity, those corrections can be represented order by order by
+Hamiltonian Lie maps.  This is the nonlinear analogue of representing a
+matrix close to the identity by the exponential of a generator; no ordinary
+scalar logarithm of the coordinates is being taken.  More formally, in the
+local canonical neighbourhood used here, the formal logarithm of the
+near-identity symplectic map is a Hamiltonian vector field.  This is the local
+setting of the Dragt--Finn Lie factorisation of analytic symplectic
+maps~\cite{DragtFinn1976}.  We may therefore write
 \begin{equation}\label{eq:nnf-residual-log}
     \mathcal F = \mathcal R\circ\mathcal E_K,
     \qquad K = K_3 + K_4 + K_5 + \cdots\,.
 \end{equation}
-Here $K_r$ is a homogeneous polynomial of degree $r$ in the canonical
-coordinates.  Equivalently, a degree-ordered Lie factorisation is
+Here $K_r$ contains exactly the monomials of total coordinate degree $r$.
+Such a polynomial is called \emph{homogeneous of degree $r$}.  Equivalently,
+a degree-ordered Lie factorisation is
 \begin{align}\label{eq:nnf-lie-factorisation}
     \mathcal F
     & = \mathcal R\circ\cdots\circ\mathcal E_{f_5}
@@ -140,9 +206,24 @@ terms at second order in their strengths.
 
 
 
-\section{Solving the Normal-Form Problem Order by Order}
+\section{Removing nonlinear terms order by order}\label{sec:nnf-order-by-order}
 
-\subsection{The resonance basis diagonalises the homological operator}
+The basic idea at each polynomial order is to separate two kinds of terms.
+Terms that change phase as the linear motion rotates can usually be shifted
+into the coordinate transformation $\mathcal B$.  Terms that are unchanged by
+the rotation cannot be eliminated in this way and must remain in the
+normal-form dynamics.  Away from resonances, the latter are precisely the
+terms that depend only on the actions.  On a resonance, additional
+angle-dependent harmonics are also unchanged after one turn and must be kept.
+
+The following phasor basis makes this separation algebraically simple.  The
+technical equation used to determine the coordinate correction is called the
+\emph{homological equation}; despite the name, it is just the linear equation
+that tells us which nonlinear coefficient is moved into the coordinate change
+and which coefficient is retained in the dynamics.
+
+
+\subsection{Phasors make the resonance test simple}
 
 Write $\vec u = (Q_1,P_1,\ldots,Q_n,P_n)$ and introduce the phasors
 \begin{equation}\label{eq:nnf-phasors}
@@ -154,7 +235,8 @@ $Q_j = \sqrt{2J_j}\cos\phi_j$,
 $P_j = -\sqrt{2J_j}\sin\phi_j$ and $\poisson{\phi_j}{J_k} = \delta_{jk}$.
 The linear map advances $a_j$ by $\e^{\ii\mu_j}$.
 
-For multi-indices $\vec p,\vec q$ of nonnegative integers, use monomials
+For tuples $\vec p,\vec q$ of nonnegative integer exponents (usually called
+multi-indices), use monomials
 \begin{equation}
     m_{\vec p\vec q} = \prod_{j = 1}^n a_j^{p_j}(a_j^*)^{q_j} = \prod_{j = 1}^n J_j^{(p_j + q_j)/2}
     \e^{\ii(\vec p-\vec q)\cdot\vec\phi}\,.
@@ -164,9 +246,11 @@ They are eigenfunctions of the substitution operator:
     \widehat{\mathcal R}m_{\vec p\vec q} = \e^{\ii\vec k\cdot\vec\mu}m_{\vec p\vec q},
     \qquad \vec k = \vec p-\vec q\,.
 \end{equation}
-The same eigenvalue problem that diagonalised the linear matrix now
-diagonalises an operator on polynomials.  The relevant eigenvalues of
-$1-\widehat{\mathcal R}$ are
+Each monomial therefore acquires only a phase factor under one linear turn.
+This is why the basis is useful: instead of coefficients mixing among many
+real monomials, each term can be tested independently.  In operator language,
+these monomials diagonalise the action of the rotation.  The relevant factors
+of $1-\widehat{\mathcal R}$ are
 $1-\e^{\ii\vec k\cdot\vec\mu}$.  They vanish at
 \begin{equation}\label{eq:nnf-resonance-condition}
     \vec k\cdot\vec\nu\in\mathbb Z,\qquad \vec\nu = \frac{\vec\mu}{2\pi}\,.
@@ -176,6 +260,10 @@ of $2\pi$ is as resonant as zero phase advance.
 
 
 \subsection{Derivation of the homological equation}
+
+We now turn the preceding physical statement into an equation.  Readers only
+interested in the interpretation may skip to
+Sec.~\ref{sec:nnf-what-remains}; the result is Eq.~\eqref{eq:nnf-homological-solution}.
 
 At the first nonlinear order, take $\mathcal B = \mathcal E_G$ and
 $\mathcal F = \mathcal R\circ\mathcal E_K$.  Pulling back
@@ -196,8 +284,9 @@ The omitted Poisson brackets belong to higher polynomial degrees.  After
 lower orders have been normalised, precisely the same calculation applies
 to the residual degree-$r$ generator $K_r$.
 
-Let $\mathcal P$ project onto the terms that will be retained: always the
-action terms, and also any selected resonant or near-resonant harmonics.
+Let $\mathcal P$ simply \emph{keep} the terms that will remain in the normal
+form and discard the others.  These retained terms always include the action
+terms and also any selected resonant or near-resonant harmonics.
 Every exact-resonant term present through the retained order must be
 included, since its denominator vanishes.  Optional near-resonant terms
 are included together with their conjugate harmonics.
@@ -227,13 +316,14 @@ than a simple sum of the $G_r$.  The Baker--Campbell--Hausdorff brackets
 generated during these steps are needed for the higher-order coefficients.
 
 
-\subsection{What is removed, and what remains}
+\subsection{What is removed, and what remains}\label{sec:nnf-what-remains}
 
-When $\vec p = \vec q$, the monomial is $\prod_jJ_j^{p_j}$ and its
-eigenvalue is one for every tune.  These terms cannot be removed by the
-homological equation.  They give the part of the normal-form Hamiltonian
-that depends only on actions.  Away from other resonances, they are the
-only terms retained.
+When $\vec p = \vec q$, the phase factor is exactly one for every tune and the
+monomial is simply $\prod_jJ_j^{p_j}$.  The linear rotation therefore leaves
+such a term unchanged.  It cannot be divided out by the homological equation
+and remains in the normal-form Hamiltonian.  These are the action-dependent
+terms that generate amplitude detuning.  Away from other resonances, they are
+the only terms that remain in the dynamics.
 
 Terms with $\vec p\ne\vec q$ describe angular harmonics.  Their coefficients
 enter the nonlinear deformation through $G_r$ if they are nonresonant,
@@ -244,12 +334,14 @@ $2\nu_x-2\nu_y\in\mathbb Z$.  Calling a term nonresonant does not mean that
 its physical effect vanishes: it has been transferred into the coordinate
 transformation.
 
-The normal form is not unique.  The homological equation determines only the
-part of $G_r$ outside the kernel of $1-\widehat{\mathcal R}$.  Adding a
-commuting generator changes the embedding $\mathcal B$ while leaving the
-normal-form dynamics equivalent.  Setting the retained part of $G_r$ to zero,
-as in Eq.~\eqref{eq:nnf-homological-solution}, is therefore a gauge choice for
-the normalising transformation, analogous to fixing a phase convention in the
+The normal form is not unique.  The equation determines only the part of
+$G_r$ associated with terms that are \emph{not} left unchanged by the linear
+rotation.  Mathematically, the undetermined terms form the kernel of
+$1-\widehat{\mathcal R}$.  Adding such a commuting generator changes the
+coordinate transformation $\mathcal B$ without changing the equivalent
+normal-form dynamics.  Setting the retained part of $G_r$ to zero, as in
+Eq.~\eqref{eq:nnf-homological-solution}, is therefore a convention for choosing
+one normalising transformation, analogous to fixing a phase convention for
 linear eigenvectors.
 
 Near a resonance, a small denominator can make the proposed transformation
@@ -262,12 +354,21 @@ numerical policy, not a universal physical criterion.
 
 \section{Geometry of Tori and Dynamics on Tori}
 
+After the order-by-order calculation, the physical interpretation is much
+simpler than the construction.  The coordinate map $\mathcal C$ tells us the
+shape of the motion in the tracking coordinates, while $\mathcal N$ tells us
+how a point moves from turn to turn in the simplified coordinates.  The two
+most important cases are an action-only normal form, which describes regular
+nonresonant motion, and a resonant normal form, in which selected phase
+combinations remain dynamically active.
+
+
 \subsection{An action-only normal form}
 
-If, through the retained polynomial order, the only harmonics in the kernel
-of $1-\widehat{\mathcal R}$ are the action monomials (and no additional
-near-resonant harmonics have deliberately been retained), the transformed
-map is
+Suppose that, through the retained polynomial order, the only nonlinear terms
+left unchanged by the linear rotation are the action monomials, and that no
+additional near-resonant harmonics have deliberately been retained.  Then the
+transformed map is
 \begin{equation}\label{eq:nnf-action-normal-form}
     \mathcal N = \mathcal R\circ\mathcal E_{h(\vec J)} = \mathcal E_{H_{\mathrm{NF}}},\qquad
     H_{\mathrm{NF}}(\vec J) = \sum_j\mu_jJ_j + h(\vec J)\,.
@@ -286,9 +387,11 @@ up to the truncation error for the original map.  The nonlinear tune is
 \end{equation}
 As in the linear case, a one-turn phase fixes the tune modulo an integer;
 the branch must be followed continuously from the linear optics.  The function
-$H_{\mathrm{NF}}$ is an \emph{interpolating Hamiltonian} for the one-turn
-normal-form map: it generates the same retained one-turn transformation.  It
-is not, in general, the local $s$-dependent Hamiltonian of the accelerator.
+$H_{\mathrm{NF}}$ is often called an \emph{interpolating Hamiltonian}: if it
+is followed for one unit of the auxiliary flow parameter, it reproduces the
+retained one-turn normal-form map.  It is therefore a compact generator of the
+one-turn dynamics, not, in general, the local $s$-dependent Hamiltonian inside
+the magnets around the ring.
 
 Fixing the positive actions gives a product of circles in normal
 coordinates, with the angles $\vec\phi$ locating points on that torus.
@@ -326,8 +429,9 @@ $\vec k$, combinations $\vec l\cdot\vec J$ with
 $\vec l\cdot\vec k = 0$ are conserved by this ideal normal form, since the
 angular dependence is only through $\vec k\cdot\vec\phi$.
 
-At exact resonance the retained harmonics commute with the discrete
-rotation.  Near resonance they generally do not.  One may introduce a
+At exact resonance the retained harmonics are unchanged by the discrete
+linear rotation (equivalently, their Lie maps commute with that rotation).
+Near resonance they generally do not.  One may introduce a
 slow resonant angle and a rotating frame, retaining the tune mismatch
 alongside the resonant Hamiltonian.  Simply replacing the map by
 $\mathcal E_{\sum\mu_jJ_j + Z}$ without the required commutation or
@@ -341,8 +445,7 @@ complex coefficients commonly used in accelerator physics to quantify these
 resonance harmonics.
 
 
-
-\section{Amplitude Detuning}
+\section{Amplitude Detuning}\label{sec:nnf-detuning}
 
 Expand the nonresonant Hamiltonian as
 \begin{equation}\label{eq:nnf-detuning-hamiltonian}
@@ -820,7 +923,7 @@ unchanged.
 
 
 
-\section{Example Implementation in Pseudocode}
+\section{Implementation Sketch}
 
 The algorithm below assumes access to Taylor maps, composition, inversion,
 and Poisson brackets.  A TPSA implementation is one way to supply these
@@ -831,8 +934,9 @@ parameter domain.  All compositions below are compositions of
 \emph{point maps}, with the rightmost map acting first.
 The Taylor representation of $\mathcal M$ takes absolute physical
 coordinates as arguments, even though it is expanded about the closed
-orbit.  The routine \texttt{symplectic\_eigenbasis} performs the
-eigenvector part of the preceding chapter's matrix algorithm.
+orbit.  The routine \texttt{symplectic\_eigenbasis} performs the linear
+eigensystem construction summarised at the start of this chapter and derived
+in detail in Chap.~\ref{chap:linear-normal-form}.
 
 \begin{lstlisting}[basicstyle=\ttfamily\small,columns=fullflexible,
                    keepspaces=true,frame=single]
@@ -840,16 +944,16 @@ input: one_turn_map, coordinate_degree d, parameter_orders
        fixed local set of retained resonance harmonics
 
 co = solve_closed_orbit(one_turn_map, delta0, lambda)
-M  = taylor_map(one_turn_map, around=co,
+M_map = taylor_map(one_turn_map, around=co,
                 coordinate_degree=d, parameter_orders=parameter_orders)
-A, mu = symplectic_eigenbasis(jacobian(M, co))
+A, mu = symplectic_eigenbasis(jacobian(M_map, co))
 T = translation(co)
 L = linear_map(A)
-F = inverse(L) o inverse(T) o M o T o L
+F = inverse(L) o inverse(T) o M_map o T o L
 R = rotation_map(mu)
 
 current = F
-B = identity_map()
+B_map = identity_map()
 Z = 0                       # retained nonlinear Hamiltonian
 
 for r = 3, ..., d + 1:
@@ -876,7 +980,7 @@ for r = 3, ..., d + 1:
     check_reality(H_r, G_r)
     step = E(G_r)            # E(H)(u) = exp(-:H:) u
     current = inverse(step) o current o step
-    B = B o step
+    B_map = B_map o step
     Z = Z + H_r
     # Recomputed residuals include all higher-order brackets.
 \end{lstlisting}
@@ -906,8 +1010,8 @@ when the retained Hamiltonian depends only on actions.
 \begin{lstlisting}[basicstyle=\ttfamily\small,columns=fullflexible,
                    keepspaces=true,frame=single]
 N = current
-C = T o L o B
-check_coefficients(M o C - C o N, through_degree=d)
+C = T o L o B_map
+check_coefficients(M_map o C - C o N, through_degree=d)
 check_coefficients(N - R o E(Z), through_degree=d)
 check_symplecticity(C, N, through_available_order=d - 1)
 
